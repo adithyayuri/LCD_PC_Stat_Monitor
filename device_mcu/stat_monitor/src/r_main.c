@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements main function.
-* Creation Date: 21-01-2021
+* Creation Date: 22-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -31,8 +31,9 @@ Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
 #include "r_cg_cgc.h"
-#include "r_cg_port.h"
 #include "r_cg_serial.h"
+#include "r_cg_wdt.h"
+#include "r_cg_rtc.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -47,6 +48,8 @@ Pragma directive
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
+long delay=0;
+uint8_t text[6] = "Hello\n";
 /* End user code. Do not edit comment generated here */
 void R_MAIN_UserInit(void);
 
@@ -58,18 +61,19 @@ void R_MAIN_UserInit(void);
 ***********************************************************************************************************************/
 void main(void)
 {
-	long delay=0;
-	uint8_t text[6] = "Hello\n";
-	R_MAIN_UserInit();
-
-    R_UART0_Start();
-
+    R_MAIN_UserInit();
     /* Start user code. Do not edit comment generated here */
+    R_UART0_Start();
+    for(delay=0; delay<200000; delay++);
+    R_RTC_Start();
+    for(delay=0; delay<200000; delay++);
+
     while (1U)
     {
 
-    	for(delay=0; delay<200000; delay++);
-    	R_UART0_Send(text, 6);
+    	for(delay=0; delay<2000000; delay++);
+    	//R_UART0_Send(text, 6);
+
     }
     /* End user code. Do not edit comment generated here */
 }

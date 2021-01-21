@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for WDT module.
-* Creation Date: 21-01-2021
+* Creation Date: 22-01-2021
 ***********************************************************************************************************************/
 
 #ifndef WDT_H

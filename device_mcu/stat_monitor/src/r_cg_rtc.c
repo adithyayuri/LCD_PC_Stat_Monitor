@@ -18,11 +18,11 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_serial.c
+* File Name    : r_cg_rtc.c
 * Version      : CodeGenerator for RL78/L12 V2.04.03.01 [14 Aug 2020]
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
-* Description  : This file implements device driver for Serial module.
+* Description  : This file implements device driver for RTC module.
 * Creation Date: 22-01-2021
 ***********************************************************************************************************************/
 
@@ -30,7 +30,7 @@
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_serial.h"
+#include "r_cg_rtc.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -44,167 +44,195 @@ Pragma directive
 /***********************************************************************************************************************
 Global variables and functions
 ***********************************************************************************************************************/
-volatile uint8_t * gp_uart0_tx_address;        /* uart0 transmit buffer address */
-volatile uint16_t  g_uart0_tx_count;           /* uart0 transmit data number */
-volatile uint8_t * gp_uart0_rx_address;        /* uart0 receive buffer address */
-volatile uint16_t  g_uart0_rx_count;           /* uart0 receive data number */
-volatile uint16_t  g_uart0_rx_length;          /* uart0 receive data length */
 /* Start user code for global. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: R_SAU0_Create
-* Description  : This function initializes the SAU0 module.
+* Function Name: R_RTC_Create
+* Description  : This function initializes the real-time clock module.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_SAU0_Create(void)
+void R_RTC_Create(void)
 {
-    SAU0EN = 1U;    /* supply SAU0 clock */
-    NOP();
-    NOP();
-    NOP();
-    NOP();
-    SPS0 = _0004_SAU_CK00_FCLK_4 | _0040_SAU_CK01_FCLK_4;
-    R_UART0_Create();
+    RTCEN = 1U;    /* supply RTC clock */
+    RTCE = 0U;     /* disable RTC clock operation */
+    RTCMK = 1U;    /* disable INTRTC interrupt */
+    RTCIF = 0U;    /* clear INTRTC interrupt flag */
+    /* Set INTRTC low priority */
+    RTCPR1 = 1U;
+    RTCPR0 = 1U;
+    RTCC0 = _00_RTC_RTC1HZ_DISABLE | _00_RTC_12HOUR_SYSTEM | _02_RTC_INTRTC_CLOCK_1;
 }
 
 /***********************************************************************************************************************
-* Function Name: R_UART0_Create
-* Description  : This function initializes the UART0 module.
+* Function Name: R_RTC_Start
+* Description  : This function enables the real-time clock.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_UART0_Create(void)
+void R_RTC_Start(void)
 {
-    ST0 |= _0002_SAU_CH1_STOP_TRG_ON | _0001_SAU_CH0_STOP_TRG_ON;    /* disable UART0 receive and transmit */
-    STMK0 = 1U;    /* disable INTST0 interrupt */
-    STIF0 = 0U;    /* clear INTST0 interrupt flag */
-    SRMK0 = 1U;    /* disable INTSR0 interrupt */
-    SRIF0 = 0U;    /* clear INTSR0 interrupt flag */
-    SREMK0 = 1U;   /* disable INTSRE0 interrupt */
-    SREIF0 = 0U;   /* clear INTSRE0 interrupt flag */
-    /* Set INTST0 low priority */
-    STPR10 = 1U;
-    STPR00 = 1U;
-    /* Set INTSR0 low priority */
-    SRPR10 = 1U;
-    SRPR00 = 1U;
-    SMR00 = _0020_SAU_SMRMN_INITIALVALUE | _0000_SAU_CLOCK_SELECT_CK00 | _0000_SAU_TRIGGER_SOFTWARE |
-            _0002_SAU_MODE_UART | _0000_SAU_TRANSFER_END;
-    SCR00 = _8000_SAU_TRANSMISSION | _0000_SAU_INTSRE_MASK | _0000_SAU_PARITY_NONE | _0080_SAU_LSB | _0010_SAU_STOP_1 |
-            _0007_SAU_LENGTH_8;
-    SDR00 = _9A00_UART0_TRANSMIT_DIVISOR;
-    NFEN0 |= _01_SAU_RXD0_FILTER_ON;
-    SIR01 = _0004_SAU_SIRMN_FECTMN | _0002_SAU_SIRMN_PECTMN | _0001_SAU_SIRMN_OVCTMN;    /* clear error flag */
-    SMR01 = _0020_SAU_SMRMN_INITIALVALUE | _0000_SAU_CLOCK_SELECT_CK00 | _0100_SAU_TRIGGER_RXD | _0000_SAU_EDGE_FALL |
-            _0002_SAU_MODE_UART | _0000_SAU_TRANSFER_END;
-    SCR01 = _4000_SAU_RECEPTION | _0000_SAU_INTSRE_MASK | _0000_SAU_PARITY_NONE | _0080_SAU_LSB | _0010_SAU_STOP_1 |
-            _0007_SAU_LENGTH_8;
-    SDR01 = _9A00_UART0_RECEIVE_DIVISOR;
-    SO0 |= _0001_SAU_CH0_DATA_OUTPUT_1;
-    SOL0 |= _0000_SAU_CHANNEL0_NORMAL;    /* output level normal */
-    SOE0 |= _0001_SAU_CH0_OUTPUT_ENABLE;    /* enable UART0 output */
-    /* Set RxD0 pin */
-    PFSEG3 &= 0xDFU;
-    PM1 |=0x02U;
-    /* Set TxD0 pin */
-    PFSEG3 &= 0xBFU;
-    P1 |= 0x04U;
-    PM1 &= 0xFBU;
+    RTCIF = 0U;    /* clear INTRTC interrupt flag */
+    RTCMK = 0U;    /* enable INTRTC interrupt */
+    RTCE = 1U;     /* enable RTC clock operation */
 }
 
 /***********************************************************************************************************************
-* Function Name: R_UART0_Start
-* Description  : This function starts the UART0 module operation.
+* Function Name: R_RTC_Stop
+* Description  : This function disables the real-time clock.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_UART0_Start(void)
+void R_RTC_Stop(void)
 {
-    SO0 |= _0001_SAU_CH0_DATA_OUTPUT_1;    /* output level normal */
-    SOE0 |= _0001_SAU_CH0_OUTPUT_ENABLE;    /* enable UART0 output */
-    SS0 |= _0002_SAU_CH1_START_TRG_ON | _0001_SAU_CH0_START_TRG_ON;    /* enable UART0 receive and transmit */
-    STIF0 = 0U;    /* clear INTST0 interrupt flag */
-    SRIF0 = 0U;    /* clear INTSR0 interrupt flag */
-    STMK0 = 0U;    /* enable INTST0 interrupt */
-    SRMK0 = 0U;    /* enable INTSR0 interrupt */
+    RTCE = 0U;    /* disable RTC clock operation */
+    RTCMK = 1U;   /* disable INTRTC interrupt */
+    RTCIF = 0U;   /* clear INTRTC interrupt flag */
 }
 
 /***********************************************************************************************************************
-* Function Name: R_UART0_Stop
-* Description  : This function stops the UART0 module operation.
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
-void R_UART0_Stop(void)
-{
-    STMK0 = 1U;    /* disable INTST0 interrupt */
-    SRMK0 = 1U;    /* disable INTSR0 interrupt */
-    ST0 |= _0002_SAU_CH1_STOP_TRG_ON | _0001_SAU_CH0_STOP_TRG_ON;    /* disable UART0 receive and transmit */
-    SOE0 &= ~_0001_SAU_CH0_OUTPUT_ENABLE;    /* disable UART0 output */
-    STIF0 = 0U;    /* clear INTST0 interrupt flag */
-    SRIF0 = 0U;    /* clear INTSR0 interrupt flag */
-}
-
-/***********************************************************************************************************************
-* Function Name: R_UART0_Receive
-* Description  : This function receives UART0 data.
-* Arguments    : rx_buf -
-*                    receive buffer pointer
-*                rx_num -
-*                    buffer size
+* Function Name: R_RTC_Get_CounterValue
+* Description  : This function reads the results of real-time clock and store them in the variables.
+* Arguments    : counter_read_val -
+*                    the current real-time clock value(BCD code)
 * Return Value : status -
-*                    MD_OK or MD_ARGERROR
+*                    MD_OK, MD_BUSY1 or MD_BUSY2
 ***********************************************************************************************************************/
-MD_STATUS R_UART0_Receive(uint8_t * const rx_buf, uint16_t rx_num)
+MD_STATUS R_RTC_Get_CounterValue(rtc_counter_value_t * const counter_read_val)
 {
     MD_STATUS status = MD_OK;
+    volatile uint16_t  w_count;
+    
+    RTCC1 |= _01_RTC_COUNTER_PAUSE;
 
-    if (rx_num < 1U)
+    /* Change the waiting time according to the system */
+    for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
     {
-        status = MD_ARGERROR;
+        NOP();
+    }
+
+    if (0U == RWST)
+    {
+        status = MD_BUSY1;
     }
     else
     {
-        g_uart0_rx_count = 0U;
-        g_uart0_rx_length = rx_num;
-        gp_uart0_rx_address = rx_buf;
+        counter_read_val->sec = SEC;
+        counter_read_val->min = MIN;
+        counter_read_val->hour = HOUR;
+        counter_read_val->week = WEEK;
+        counter_read_val->day = DAY;
+        counter_read_val->month = MONTH;
+        counter_read_val->year = YEAR;
+
+        RTCC1 &= (uint8_t)~_01_RTC_COUNTER_PAUSE;
+
+        /* Change the waiting time according to the system */
+        for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
+        {
+            NOP();
+        }
+
+        if (1U == RWST)
+        {
+            status = MD_BUSY2;
+        }
     }
 
     return (status);
 }
 
 /***********************************************************************************************************************
-* Function Name: R_UART0_Send
-* Description  : This function sends UART0 data.
-* Arguments    : tx_buf -
-*                    transfer buffer pointer
-*                tx_num -
-*                    buffer size
+* Function Name: R_RTC_Set_CounterValue
+* Description  : This function changes the real-time clock value.
+* Arguments    : counter_write_val -
+*                    the expected real-time clock value(BCD code)
+* Return Value : status -
+*                    MD_OK, MD_BUSY1 or MD_BUSY2
+***********************************************************************************************************************/
+MD_STATUS R_RTC_Set_CounterValue(rtc_counter_value_t counter_write_val)
+{
+    MD_STATUS status = MD_OK;
+    volatile uint16_t  w_count;
+    
+    RTCC1 |= _01_RTC_COUNTER_PAUSE;
+
+    /* Change the waiting time according to the system */
+    for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
+    {
+        NOP();
+    }
+
+    if (0U == RWST)
+    {
+        status = MD_BUSY1;
+    }
+    else
+    {
+        SEC = counter_write_val.sec;
+        MIN = counter_write_val.min;
+        HOUR = counter_write_val.hour;
+        WEEK = counter_write_val.week;
+        DAY = counter_write_val.day;
+        MONTH = counter_write_val.month;
+        YEAR = counter_write_val.year;
+        RTCC1 &= (uint8_t)~_01_RTC_COUNTER_PAUSE;
+
+        /* Change the waiting time according to the system */
+        for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
+        {
+            NOP();
+        }
+
+        if (1U == RWST)
+        {
+            status = MD_BUSY2;
+        }
+    }
+
+    return (status);
+}
+
+/***********************************************************************************************************************
+* Function Name: R_RTC_Set_ConstPeriodInterruptOn
+* Description  : This function enables constant-period interrupt.
+* Arguments    : period -
+*                    the constant period of INTRTC
 * Return Value : status -
 *                    MD_OK or MD_ARGERROR
 ***********************************************************************************************************************/
-MD_STATUS R_UART0_Send(uint8_t * const tx_buf, uint16_t tx_num)
+MD_STATUS R_RTC_Set_ConstPeriodInterruptOn(rtc_int_period_t period)
 {
     MD_STATUS status = MD_OK;
 
-    if (tx_num < 1U)
+    if ((period < HALFSEC) || (period > ONEMONTH))
     {
         status = MD_ARGERROR;
     }
     else
     {
-        gp_uart0_tx_address = tx_buf;
-        g_uart0_tx_count = tx_num;
-        STMK0 = 1U;    /* disable INTST0 interrupt */
-        TXD0 = *gp_uart0_tx_address;
-        gp_uart0_tx_address++;
-        g_uart0_tx_count--;
-        STMK0 = 0U;    /* enable INTST0 interrupt */
+        RTCMK = 1U;    /* disable INTRTC */
+        RTCC0 = (RTCC0 & _F8_RTC_INTRTC_CLEAR) | period;
+        RTCC1 &= (uint8_t)~_08_RTC_INTC_GENERATE_FLAG;
+        RTCIF = 0U;    /* clear INTRTC interrupt flag */
+        RTCMK = 0U;    /* enable INTRTC interrupt */
     }
 
     return (status);
+}
+
+/***********************************************************************************************************************
+* Function Name: R_RTC_Set_ConstPeriodInterruptOff
+* Description  : This function disables constant-period interrupt.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_RTC_Set_ConstPeriodInterruptOff(void)
+{
+    RTCC0 &= _F8_RTC_INTRTC_CLEAR;
+    RTCC1 &= (uint8_t)~_08_RTC_INTC_GENERATE_FLAG;
+    RTCIF = 0U;        /* clear INTRTC interrupt flag */
 }
 
 /* Start user code for adding. Do not edit comment generated here */

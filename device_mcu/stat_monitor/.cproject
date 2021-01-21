@@ -129,7 +129,7 @@
                                 								
                                 <option id="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.debugMonitorValue.332709646" name="Memory area (-debug_monitor=&lt;start address&gt;-&lt;end address&gt;)" superClass="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.debugMonitorValue" useByScannerDiscovery="false" value="" valueType="string"/>
                                 								
-                                <option id="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.userOptByteValue.1072335832" name="User option byte value (-user_opt_byte=&lt;value&gt;)" superClass="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.userOptByteValue" useByScannerDiscovery="false" value="EFFFE0" valueType="string"/>
+                                <option id="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.userOptByteValue.1072335832" name="User option byte value (-user_opt_byte=&lt;value&gt;)" superClass="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.userOptByteValue" useByScannerDiscovery="false" value="FFFFE0" valueType="string"/>
                                 								
                                 <option id="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.ocdbgValue.131041824" name="On-chip debug control value (-ocdbg=&lt;value&gt;)" superClass="com.renesas.cdt.managedbuild.renesas.ccrl.linker.option.ocdbgValue" useByScannerDiscovery="false" value="04" valueType="string"/>
                                 								

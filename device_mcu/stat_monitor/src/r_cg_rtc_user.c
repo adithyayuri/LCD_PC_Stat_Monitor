@@ -18,11 +18,11 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_wdt_user.c
+* File Name    : r_cg_rtc_user.c
 * Version      : CodeGenerator for RL78/L12 V2.04.03.01 [14 Aug 2020]
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
-* Description  : This file implements device driver for WDT module.
+* Description  : This file implements device driver for RTC module.
 * Creation Date: 22-01-2021
 ***********************************************************************************************************************/
 
@@ -30,15 +30,16 @@
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_wdt.h"
+#include "r_cg_rtc.h"
 /* Start user code for include. Do not edit comment generated here */
+#include "r_cg_serial.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
 /***********************************************************************************************************************
 Pragma directive
 ***********************************************************************************************************************/
-#pragma interrupt r_wdt_interrupt(vect=INTWDTI)
+#pragma interrupt r_rtc_interrupt(vect=INTRTC)
 /* Start user code for pragma. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 
@@ -46,17 +47,34 @@ Pragma directive
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
+uint8_t buf[7] = "second\n";
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: r_wdt_interrupt
-* Description  : This function is INTWDTI interrupt service routine.
+* Function Name: r_rtc_interrupt
+* Description  : This function is INTRTC interrupt service routine.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-static void __near r_wdt_interrupt(void)
+static void __near r_rtc_interrupt(void)
+{
+    if (1U == RIFG)
+    {
+        RTCC1 &= (uint8_t)~_08_RTC_INTC_GENERATE_FLAG;    /* clear RIFG */
+        r_rtc_callback_constperiod();
+    }
+}
+
+/***********************************************************************************************************************
+* Function Name: r_rtc_callback_constperiod
+* Description  : This function is real-time clock constant-period interrupt service handler.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+static void r_rtc_callback_constperiod(void)
 {
     /* Start user code. Do not edit comment generated here */
+	R_UART0_Send(buf, 7);
     /* End user code. Do not edit comment generated here */
 }
 

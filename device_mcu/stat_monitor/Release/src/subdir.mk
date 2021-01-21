@@ -6,30 +6,36 @@
 C_SRCS += \
 ../src/r_cg_cgc.c \
 ../src/r_cg_cgc_user.c \
-../src/r_cg_port.c \
-../src/r_cg_port_user.c \
+../src/r_cg_rtc.c \
+../src/r_cg_rtc_user.c \
 ../src/r_cg_serial.c \
 ../src/r_cg_serial_user.c \
+../src/r_cg_wdt.c \
+../src/r_cg_wdt_user.c \
 ../src/r_main.c \
 ../src/r_systeminit.c 
 
 COMPILER_OBJS += \
 src/r_cg_cgc.obj \
 src/r_cg_cgc_user.obj \
-src/r_cg_port.obj \
-src/r_cg_port_user.obj \
+src/r_cg_rtc.obj \
+src/r_cg_rtc_user.obj \
 src/r_cg_serial.obj \
 src/r_cg_serial_user.obj \
+src/r_cg_wdt.obj \
+src/r_cg_wdt_user.obj \
 src/r_main.obj \
 src/r_systeminit.obj 
 
 C_DEPS += \
 src/r_cg_cgc.d \
 src/r_cg_cgc_user.d \
-src/r_cg_port.d \
-src/r_cg_port_user.d \
+src/r_cg_rtc.d \
+src/r_cg_rtc_user.d \
 src/r_cg_serial.d \
 src/r_cg_serial_user.d \
+src/r_cg_wdt.d \
+src/r_cg_wdt_user.d \
 src/r_main.d \
 src/r_systeminit.d 
 
