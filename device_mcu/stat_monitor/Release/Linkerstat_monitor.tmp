@@ -1,0 +1,19 @@
+-MAKEUD=E:\GitHUB repos\Stat_Monitor\device_mcu\stat_monitor\Release/stat_monitor_l.ud
+-device="C:/Users/YURI/.eclipse/com.renesas.platform_1945352565/DebugComp/RL78/RL78/Common/DR5F10RLC.DVF"
+-list="stat_monitor.map"
+-nooptimize
+-auto_section_layout
+-security_id=0
+-input=".\generate\cstart.obj"
+-input=".\generate\hdwinit.obj"
+-input=".\generate\stkinit.obj"
+-input=".\src\stat_monitor.obj"
+-library="E:\Program Files (x86)\Renesas\RL78\1_9_0\lib\rl78cm4s.lib"
+-library="E:\Program Files (x86)\Renesas\RL78\1_9_0\lib\rl78cm4r.lib"
+-library="E:\Program Files (x86)\Renesas\RL78\1_9_0\lib\malloc_n.lib"
+-output="stat_monitor.abs"
+-nodebug
+-memory=high
+-rom=.data=.dataR,.sdata=.sdataR
+-nomessage
+-nologo

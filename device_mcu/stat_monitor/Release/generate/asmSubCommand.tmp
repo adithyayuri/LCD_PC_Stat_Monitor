@@ -1,0 +1,4 @@
+-cpu=S2
+-c
+-dev="C:/Users/YURI/.eclipse/com.renesas.platform_1945352565/DebugComp/RL78/RL78/Common/DR5F10RLC.DVF"
+-character_set=utf8
