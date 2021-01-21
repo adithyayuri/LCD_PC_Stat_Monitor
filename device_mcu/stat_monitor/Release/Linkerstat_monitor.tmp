@@ -3,11 +3,19 @@
 -list="stat_monitor.map"
 -nooptimize
 -auto_section_layout
--security_id=0
+-security_id=00000000000000000000
+-user_opt_byte=EFFFE0
+-ocdbg=04
 -input=".\generate\cstart.obj"
--input=".\generate\hdwinit.obj"
 -input=".\generate\stkinit.obj"
--input=".\src\stat_monitor.obj"
+-input=".\src\r_cg_cgc.obj"
+-input=".\src\r_cg_cgc_user.obj"
+-input=".\src\r_cg_port.obj"
+-input=".\src\r_cg_port_user.obj"
+-input=".\src\r_cg_serial.obj"
+-input=".\src\r_cg_serial_user.obj"
+-input=".\src\r_main.obj"
+-input=".\src\r_systeminit.obj"
 -library="E:\Program Files (x86)\Renesas\RL78\1_9_0\lib\rl78cm4s.lib"
 -library="E:\Program Files (x86)\Renesas\RL78\1_9_0\lib\rl78cm4r.lib"
 -library="E:\Program Files (x86)\Renesas\RL78\1_9_0\lib\malloc_n.lib"

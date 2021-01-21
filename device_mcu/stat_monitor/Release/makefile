@@ -61,6 +61,9 @@ endif
 LINKER_OUTPUT_OUTPUTS += \
 stat_monitor.abs
 
+CONVERTOR_OUTPUT_OUTPUTS += \
+stat_monitor.mot
+
 OBJS := \
 $(COMPILER_OBJS) \
 $(INDIVIDUAL_COMPILER_OBJS) \
@@ -69,29 +72,38 @@ $(CUSTOM_OBJS)
 
 
 # All Target
-all: $(LINKER_OUTPUT_OUTPUTS) stat_monitor.x stat_monitor.udm
+all: $(CONVERTOR_OUTPUT_OUTPUTS) stat_monitor.x stat_monitor.udm
 
 	@echo 'Build complete.'
 
+stat_monitor.mot: $(LINKER_OUTPUT_OUTPUTS) 
+	@echo 'Invoking: Converter'
+	@echo 'Building target:'
+	@echo Converterstat_monitor.tmp=
+	@sed -e "s/^/    /" "Converterstat_monitor.tmp"
+	rlink "stat_monitor.abs" -subcommand="Converterstat_monitor.tmp"
+	@echo 'Finished building target:'
+	@echo.
+
+
 stat_monitor.abs: $(OBJS)  $(ALL_ASMS)
 	@echo 'Invoking: Linker'
-	@echo 'Building target:'
 	@echo Linkerstat_monitor.tmp=
 	@sed -e "s/^/    /" "Linkerstat_monitor.tmp"
 	rlink -subcommand="Linkerstat_monitor.tmp"
-	@echo 'Finished building target:'
+	@echo 'Finished building:'
 	@echo.
 
 
 stat_monitor.x: stat_monitor.abs
 		-C:\Users\YURI\.eclipse\com.renesas.platform_1945352565\Utilities\\ccrl\renesas_cc_converter.exe stat_monitor.abs stat_monitor.x
 
-stat_monitor.udm: $(LINKER_OUTPUT_OUTPUTS)
+stat_monitor.udm: $(LINKER_OUTPUT_OUTPUTS) $(CONVERTOR_OUTPUT_OUTPUTS)
 	udcollector -subcommand=udSubcommand.tmp -output=stat_monitor.udm
 
 # Other Targets
 clean:
-	-$(RM) $(LINKER_OUTPUT_OUTPUTS)
+	-$(RM) $(LINKER_OUTPUT_OUTPUTS) $(CONVERTOR_OUTPUT_OUTPUTS)
 	-rm -rf $(OBJS) $(C_DEPS) $(ASM_DEPS) $(DSP_DEPS) 
 	-rm -rf src/*.asm src/*.p src/*.pp src/*.src src/*.jmp src/*.lst src/*.prn src/*.i src/*.ud 
 	-rm -rf generate/*.asm generate/*.p generate/*.pp generate/*.src generate/*.jmp generate/*.lst generate/*.prn generate/*.i generate/*.ud 

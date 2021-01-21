@@ -4,13 +4,34 @@
 
 # Add inputs and outputs from these tool invocations to the build variables
 C_SRCS += \
-../src/stat_monitor.c 
+../src/r_cg_cgc.c \
+../src/r_cg_cgc_user.c \
+../src/r_cg_port.c \
+../src/r_cg_port_user.c \
+../src/r_cg_serial.c \
+../src/r_cg_serial_user.c \
+../src/r_main.c \
+../src/r_systeminit.c 
 
 COMPILER_OBJS += \
-src/stat_monitor.obj 
+src/r_cg_cgc.obj \
+src/r_cg_cgc_user.obj \
+src/r_cg_port.obj \
+src/r_cg_port_user.obj \
+src/r_cg_serial.obj \
+src/r_cg_serial_user.obj \
+src/r_main.obj \
+src/r_systeminit.obj 
 
 C_DEPS += \
-src/stat_monitor.d 
+src/r_cg_cgc.d \
+src/r_cg_cgc_user.d \
+src/r_cg_port.d \
+src/r_cg_port_user.d \
+src/r_cg_serial.d \
+src/r_cg_serial_user.d \
+src/r_main.d \
+src/r_systeminit.d 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.obj: ../src/%.c 

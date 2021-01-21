@@ -1,0 +1,6 @@
+-MAKEUD=E:\GitHUB repos\Stat_Monitor\device_mcu\stat_monitor\Release\stat_monitor_c.ud
+-form=stype
+-output="stat_monitor.mot"
+-byte_count=10
+-nomessage
+-nologo

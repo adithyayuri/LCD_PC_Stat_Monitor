@@ -5,17 +5,14 @@
 # Add inputs and outputs from these tool invocations to the build variables
 ASM_SRCS += \
 ../generate/cstart.asm \
-../generate/hdwinit.asm \
 ../generate/stkinit.asm 
 
 ASSEMBLER_OBJS += \
 generate/cstart.obj \
-generate/hdwinit.obj \
 generate/stkinit.obj 
 
 ASM_DEPS += \
 generate/cstart.d \
-generate/hdwinit.d \
 generate/stkinit.d 
 
 # Each subdirectory must supply rules for building sources it contributes
