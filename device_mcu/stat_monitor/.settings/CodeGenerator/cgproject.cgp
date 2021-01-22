@@ -44,7 +44,7 @@
       </Effect>
     </VDD_MIN>
     <VDD_MAX Name="VDD_MAX" Value="5.5" Comment="5.5V" />
-    <WDT_INUSE Name="WDT_INUSE" Text="1" Trigger="WDT" Comment="Use">
+    <WDT_INUSE Name="WDT_INUSE" Text="0" Trigger="WDT" Comment="Use">
       <Effect>
         <CGC />
       </Effect>
@@ -79,7 +79,7 @@
     <StartAddressOfOnChipDebugOptionBytes Name="GOStart" Text="7E00" />
     <SizeOfOnChipDebugOptionBytesArea Name="GOSizeValue" Text="512" />
     <UserOptionBytes Name="GB" Text="1" />
-    <UserOptionBytesValue Name="GBValue" Text="FFFFE0" />
+    <UserOptionBytesValue Name="GBValue" Text="EFFFE0" />
     <RAMStartAddress Chip="R5F10RBC,R5F10RFC,R5F10RGC,R5F10RJC,R5F10RLC" Name="RAMStartAddress" Fixed="" Text="000FF900" />
     <RAMEndAddress Name="RAMEndAddress" Fixed="" Text="000FFEFF" />
     <ROMEndAddress Chip="R5F10RBC,R5F10RFC,R5F10RGC,R5F10RJC,R5F10RLC" Name="ROMEndAddress" Fixed="" Text="00007FFF" />
@@ -120,12 +120,12 @@
         </Port1>
         <Port2 ADIN="true">
           <P20 Name="P20/ANI0/AVREFP" AltFunc="" Point="I/O" />
-          <P21 Name="P21/ANI1/AVREFM" AltFunc="" Point="I/O" />
+          <P21 Name="P21/ANI1/AVREFM" AltFunc="P21" Point="I/O" />
         </Port2>
         <Port3 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" Pullup="true">
           <P30 Name="P30/TI01/TO01/SEG19" AltFunc="" Point="I/O" />
-          <P31 Name="P31/INTP3/RTC1HZ/SEG18" AltFunc="" Point="I/O" />
-          <P32 Name="P32/TI03/TO03/INTP4/SEG17" AltFunc="" Point="I/O" />
+          <P31 Name="P31/INTP3/RTC1HZ/SEG18" AltFunc="P31" Point="I/O" />
+          <P32 Name="P32/TI03/TO03/INTP4/SEG17" AltFunc="P32" Point="I/O" />
         </Port3>
         <Port4 Chip="RL78L12_64pin" Pullup="true">
           <P40 Name="P40/TOOL0" AltFunc="" Point="I/O" />
@@ -157,13 +157,13 @@
           <P122 Name="P122/X2/EXCLK" AltFunc="" Point="I" />
           <P123 Name="P123/XT1" AltFunc="XT1" Point="I" />
           <P124 Name="P124/XT2/EXCLKS" AltFunc="XT2" Point="I" />
-          <P125 Name="P125/VL3" Pullup="true" AltFunc="" Point="I/O" />
+          <P125 Name="P125/VL3" Pullup="true" AltFunc="P125" Point="I/O" />
           <P126 Name="P126/CAPL" Pullup="true" AltFunc="" Point="I/O" />
           <P127 Name="P127/CAPH" Pullup="true" AltFunc="" Point="I/O" />
         </Port12>
         <Port13 Chip="RL78L12_64pin">
-          <P130 Name="P130" AltFunc="" Point="O" />
-          <P137 Name="P137/INTP0" AltFunc="" Point="I" />
+          <P130 Name="P130" AltFunc="P130" Point="O" />
+          <P137 Name="P137/INTP0" AltFunc="P137" Point="I" />
         </Port13>
         <Port14 Chip="RL78L12_64pin" Pullup="true">
           <P140 Name="P140/TO00/PCLBUZ0/SEG27" AltFunc="" Point="I/O" />
@@ -417,7 +417,7 @@
         </DMA1>
       </DMAC>
       <WDT>
-        <INTWDTI InUse="1" ISR="r_wdt_interrupt" />
+        <INTWDTI InUse="0" ISR="r_wdt_interrupt" />
       </WDT>
       <LVD>
         <INTLVI InUse="0" ISR="r_lvd_interrupt" IsDMATrigger="true" />
@@ -479,15 +479,15 @@
         <r_cg_cgc.h UserName="r_cg_cgc.h" LibName=".h" InUse="1" />
       </CGC>
       <PORT>
-        <r_cg_port.c UserName="r_cg_port.c" LibName=".c">
+        <r_cg_port.c UserName="r_cg_port.c" LibName=".c" InUse="1">
           <Type R_PORT_Create="void R_PORT_Create(void)" />
-          <R_PORT_Create UserName="" LibName="R_PORT_Create" Init="1" InitMode="" />
+          <R_PORT_Create UserName="" LibName="R_PORT_Create" Init="1" InitMode="" InUse="1" />
         </r_cg_port.c>
-        <r_cg_port_user.c UserName="r_cg_port_user.c" LibName="_user.c">
+        <r_cg_port_user.c UserName="r_cg_port_user.c" LibName="_user.c" InUse="1">
           <Type R_PORT_Create_UserInit="void R_PORT_Create_UserInit(void)" />
-          <R_PORT_Create_UserInit UserName="" LibName="R_PORT_Create_UserInit" />
+          <R_PORT_Create_UserInit UserName="" LibName="R_PORT_Create_UserInit" InUse="0" />
         </r_cg_port_user.c>
-        <r_cg_port.h UserName="r_cg_port.h" LibName=".h" />
+        <r_cg_port.h UserName="r_cg_port.h" LibName=".h" InUse="1" />
       </PORT>
       <INTC>
         <r_cg_intc.c UserName="" LibName=".c" InUse="0">
@@ -662,111 +662,111 @@
         <r_cg_adc.h UserName="" LibName=".h" InUse="" />
       </ADC>
       <TAU>
-        <r_cg_timer.c UserName="" LibName=".c" InUse="">
+        <r_cg_timer.c UserName="" LibName=".c" InUse="0">
           <Type R_TAU_Create="void R_TAU_Create(void)" R_TAU_Set_PowerOff="void R_TAU_Set_PowerOff(void)" R_TAU_Channeln_Start="void R_TAU_Channeln_Start(void)" R_TAU_Channeln_Higher8bits_Start="void R_TAU_Channeln_Higher8bits_Start(void)" R_TAU_Channeln_Lower8bits_Start="void R_TAU_Channeln_Lower8bits_Start(void)" R_TAU_Channeln_Stop="void R_TAU_Channeln_Stop(void)" R_TAU_Channeln_Higher8bits_Stop="void R_TAU_Channeln_Higher8bits_Stop(void)" R_TAU_Channeln_Lower8bits_Stop="void R_TAU_Channeln_Lower8bits_Stop(void)" R_TAU_Channeln_Get_PulseWidth="void R_TAU_Channeln_Get_PulseWidth(uint32_t * const width)" R_TAU_Channeln_Set_SoftwareTriggerOn="void R_TAU_Channeln_Set_SoftwareTriggerOn(void)" />
           <TAU0>
-            <R_TAU0_Create UserName="" LibName="R_TAU_Create" InUse="" Init="1" InitMode="" />
-            <R_TAU0_Set_PowerOff UserName="" LibName="R_TAU_Set_PowerOff" InUse="" />
+            <R_TAU0_Create UserName="" LibName="R_TAU_Create" InUse="0" Init="1" InitMode="" />
+            <R_TAU0_Set_PowerOff UserName="" LibName="R_TAU_Set_PowerOff" InUse="0" />
             <Channel0 InUse="">
-              <R_TAU0_Channel0_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel0_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel0_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
-              <R_TAU0_Channel0_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="" />
+              <R_TAU0_Channel0_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel0_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel0_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
+              <R_TAU0_Channel0_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="0" />
             </Channel0>
             <Channel1 InUse="">
-              <R_TAU0_Channel1_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel1_Higher8bits_Start UserName="" LibName="R_TAU_Channeln_Higher8bits_Start" InUse="" />
-              <R_TAU0_Channel1_Lower8bits_Start UserName="" LibName="R_TAU_Channeln_Lower8bits_Start" InUse="" />
-              <R_TAU0_Channel1_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel1_Higher8bits_Stop UserName="" LibName="R_TAU_Channeln_Higher8bits_Stop" InUse="" />
-              <R_TAU0_Channel1_Lower8bits_Stop UserName="" LibName="R_TAU_Channeln_Lower8bits_Stop" InUse="" />
-              <R_TAU0_Channel1_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
+              <R_TAU0_Channel1_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel1_Higher8bits_Start UserName="" LibName="R_TAU_Channeln_Higher8bits_Start" InUse="0" />
+              <R_TAU0_Channel1_Lower8bits_Start UserName="" LibName="R_TAU_Channeln_Lower8bits_Start" InUse="0" />
+              <R_TAU0_Channel1_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel1_Higher8bits_Stop UserName="" LibName="R_TAU_Channeln_Higher8bits_Stop" InUse="0" />
+              <R_TAU0_Channel1_Lower8bits_Stop UserName="" LibName="R_TAU_Channeln_Lower8bits_Stop" InUse="0" />
+              <R_TAU0_Channel1_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
             </Channel1>
             <Channel2 InUse="">
-              <R_TAU0_Channel2_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel2_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel2_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
-              <R_TAU0_Channel2_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="" />
+              <R_TAU0_Channel2_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel2_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel2_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
+              <R_TAU0_Channel2_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="0" />
             </Channel2>
             <Channel3 InUse="">
-              <R_TAU0_Channel3_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel3_Higher8bits_Start UserName="" LibName="R_TAU_Channeln_Higher8bits_Start" InUse="" />
-              <R_TAU0_Channel3_Lower8bits_Start UserName="" LibName="R_TAU_Channeln_Lower8bits_Start" InUse="" />
-              <R_TAU0_Channel3_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel3_Higher8bits_Stop UserName="" LibName="R_TAU_Channeln_Higher8bits_Stop" InUse="" />
-              <R_TAU0_Channel3_Lower8bits_Stop UserName="" LibName="R_TAU_Channeln_Lower8bits_Stop" InUse="" />
-              <R_TAU0_Channel3_Get_PulseWidth Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
+              <R_TAU0_Channel3_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel3_Higher8bits_Start UserName="" LibName="R_TAU_Channeln_Higher8bits_Start" InUse="0" />
+              <R_TAU0_Channel3_Lower8bits_Start UserName="" LibName="R_TAU_Channeln_Lower8bits_Start" InUse="0" />
+              <R_TAU0_Channel3_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel3_Higher8bits_Stop UserName="" LibName="R_TAU_Channeln_Higher8bits_Stop" InUse="0" />
+              <R_TAU0_Channel3_Lower8bits_Stop UserName="" LibName="R_TAU_Channeln_Lower8bits_Stop" InUse="0" />
+              <R_TAU0_Channel3_Get_PulseWidth Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
             </Channel3>
             <Channel4 InUse="">
-              <R_TAU0_Channel4_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel4_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel4_Get_PulseWidth Chip="RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
-              <R_TAU0_Channel4_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="" />
+              <R_TAU0_Channel4_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel4_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel4_Get_PulseWidth Chip="RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
+              <R_TAU0_Channel4_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="0" />
             </Channel4>
             <Channel5 InUse="">
-              <R_TAU0_Channel5_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel5_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel5_Get_PulseWidth Chip="RL78L12_52pin,RL78L12_64pin" UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
+              <R_TAU0_Channel5_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel5_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel5_Get_PulseWidth Chip="RL78L12_52pin,RL78L12_64pin" UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
             </Channel5>
             <Channel6 InUse="">
-              <R_TAU0_Channel6_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel6_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel6_Get_PulseWidth UserName="" Chip="RL78L12_52pin,RL78L12_64pin" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
-              <R_TAU0_Channel6_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="" />
+              <R_TAU0_Channel6_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel6_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel6_Get_PulseWidth UserName="" Chip="RL78L12_52pin,RL78L12_64pin" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
+              <R_TAU0_Channel6_Set_SoftwareTriggerOn UserName="" LibName="R_TAU_Channeln_Set_SoftwareTriggerOn" InUse="0" />
             </Channel6>
             <Channel7 InUse="">
-              <R_TAU0_Channel7_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="" />
-              <R_TAU0_Channel7_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="" />
-              <R_TAU0_Channel7_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="" />
+              <R_TAU0_Channel7_Start UserName="" LibName="R_TAU_Channeln_Start" InUse="0" />
+              <R_TAU0_Channel7_Stop UserName="" LibName="R_TAU_Channeln_Stop" InUse="0" />
+              <R_TAU0_Channel7_Get_PulseWidth UserName="" LibName="R_TAU_Channeln_Get_PulseWidth" InUse="0" />
             </Channel7>
           </TAU0>
         </r_cg_timer.c>
-        <r_cg_timer_user.c UserName="" LibName="_user.c" InUse="">
+        <r_cg_timer_user.c UserName="" LibName="_user.c" InUse="0">
           <Type R_TAU_Create_UserInit="void R_TAUn_Create_UserInit(void)" r_tau_channeln_interrupt="__interrupt static void r_tau_channeln_interrupt(void)" r_tau_channeln_higher8bits_interrupt="__interrupt static void r_tau_channeln_higher8bits_interrupt(void)" />
           <TAU0>
-            <R_TAU0_Create_UserInit UserName="" LibName="R_TAU_Create_UserInit" InUse="" />
+            <R_TAU0_Create_UserInit UserName="" LibName="R_TAU_Create_UserInit" InUse="0" />
             <Channel0 InUse="">
-              <r_tau0_channel0_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
+              <r_tau0_channel0_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
             </Channel0>
             <Channel1 InUse="">
-              <r_tau0_channel1_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
-              <r_tau0_channel1_higher8bits_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_higher8bits_interrupt" InUse="" />
+              <r_tau0_channel1_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
+              <r_tau0_channel1_higher8bits_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_higher8bits_interrupt" InUse="0" />
             </Channel1>
             <Channel2 InUse="">
-              <r_tau0_channel2_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
+              <r_tau0_channel2_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
             </Channel2>
             <Channel3 InUse="">
-              <r_tau0_channel3_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
-              <r_tau0_channel3_higher8bits_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_higher8bits_interrupt" InUse="" />
+              <r_tau0_channel3_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
+              <r_tau0_channel3_higher8bits_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_higher8bits_interrupt" InUse="0" />
             </Channel3>
             <Channel4 InUse="">
-              <r_tau0_channel4_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
+              <r_tau0_channel4_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
             </Channel4>
             <Channel5 InUse="">
-              <r_tau0_channel5_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
+              <r_tau0_channel5_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
             </Channel5>
             <Channel6 InUse="">
-              <r_tau0_channel6_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
+              <r_tau0_channel6_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
             </Channel6>
             <Channel7 InUse="">
-              <r_tau0_channel7_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="" />
+              <r_tau0_channel7_interrupt UserName="" INTHandle="" LibName="r_tau_channeln_interrupt" InUse="0" />
             </Channel7>
           </TAU0>
         </r_cg_timer_user.c>
-        <r_cg_timer.h UserName="" LibName=".h" InUse="" />
+        <r_cg_timer.h UserName="" LibName=".h" InUse="0" />
       </TAU>
       <WDT>
-        <r_cg_wdt.c UserName="r_cg_wdt.c" LibName=".c" InUse="1">
+        <r_cg_wdt.c UserName="r_cg_wdt.c" LibName=".c" InUse="0">
           <Type R_WDT_Create="void R_WDT_Create(void)" R_WDT_Restart="void R_WDT_Restart(void)" />
-          <R_WDT_Create UserName="" LibName="R_WDT_Create" InUse="1" Init="1" InitMode="" />
-          <R_WDT_Restart UserName="" LibName="R_WDT_Restart" InUse="1" />
+          <R_WDT_Create UserName="" LibName="R_WDT_Create" InUse="0" Init="1" InitMode="" />
+          <R_WDT_Restart UserName="" LibName="R_WDT_Restart" InUse="0" />
         </r_cg_wdt.c>
-        <r_cg_wdt_user.c UserName="r_cg_wdt_user.c" LibName="_user.c" InUse="1">
+        <r_cg_wdt_user.c UserName="r_cg_wdt_user.c" LibName="_user.c" InUse="0">
           <Type R_WDT_Create_UserInit="void R_WDT_Create_UserInit(void)" r_wdt_interrupt="__interrupt static void r_wdt_interrupt(void)" />
-          <R_WDT_Create_UserInit UserName="" LibName="R_WDT_Create_UserInit" InUse="" />
-          <r_wdt_interrupt UserName="r_wdt_interrupt" INTHandle="" LibName="r_wdt_interrupt" InUse="1" />
+          <R_WDT_Create_UserInit UserName="" LibName="R_WDT_Create_UserInit" InUse="0" />
+          <r_wdt_interrupt UserName="r_wdt_interrupt" INTHandle="" LibName="r_wdt_interrupt" InUse="0" />
         </r_cg_wdt_user.c>
-        <r_cg_wdt.h UserName="r_cg_wdt.h" LibName=".h" InUse="1" />
+        <r_cg_wdt.h UserName="r_cg_wdt.h" LibName=".h" InUse="0" />
       </WDT>
       <RTC>
         <r_cg_rtc.c UserName="r_cg_rtc.c" LibName=".c" InUse="1">
@@ -900,11 +900,12 @@
       <GlobleUserTag>
         <clock_option Name="clock_option" Value="E0" />
         <cg_security5 Name="cg_security5" Value="00" />
-        <wdt_option Name="wdt_option" Value="FF" />
+        <wdt_option Name="wdt_option" Value="EF" />
         <cg_security8 Name="cg_security8" Value="00" />
         <cg_security2 Name="cg_security2" Value="00" />
         <cg_security1 Name="cg_security1" Value="00" />
         <cg_security9 Name="cg_security9" Value="00" />
+        <lvi_option Name="lvi_option" Value="FF" />
         <cg_security6 Name="cg_security6" Value="00" />
         <cg_crc_area Name="cg_crc_area" Value="00" />
         <cg_iawctl_value Name="cg_iawctl_value" Value="80" />
@@ -913,9 +914,8 @@
         <cg_security3 Name="cg_security3" Value="00" />
         <cg_security4 Name="cg_security4" Value="00" />
         <pior_value Name="pior_value" Value="00" />
-        <cg_option Name="cg_option" Value="04" />
         <cg_security7 Name="cg_security7" Value="00" />
-        <lvi_option Name="lvi_option" Value="FF" />
+        <cg_option Name="cg_option" Value="04" />
       </GlobleUserTag>
     </TAG>
   </DIR>
@@ -923,8 +923,8 @@
     <CGC Prepared="true" SetFlag="True" NeedRefresh="False">
       <CGC SetFlag="True" MacroName="cgc" />
     </CGC>
-    <PORT Prepared="true" HelpID="port" SetFlag="" NeedRefresh="False">
-      <PORT MacroName="PORT" />
+    <PORT Prepared="true" HelpID="port" SetFlag="True" NeedRefresh="False">
+      <PORT MacroName="PORT" SetFlag="True" />
     </PORT>
     <INTC SetFlag="False" HelpID="int" NeedRefresh="False">
       <INTP Accelerate="No" MacroName="INTP" SetFlag="False" TabEnable="True" />
@@ -940,11 +940,11 @@
     <ADC SetFlag="" HelpID="adc" NeedRefresh="False">
       <ADC SetFlag="" MacroName="ADC" />
     </ADC>
-    <TAU SetFlag="false" HelpID="timer" NeedRefresh="False">
-      <TAU0 Accelerate="No" MacroName="TAU" Channel="0" ChannelNum="0,1,2,3,4,5,6,7" />
+    <TAU SetFlag="False" HelpID="timer" NeedRefresh="False">
+      <TAU0 Accelerate="No" MacroName="TAU" Channel="0" ChannelNum="0,1,2,3,4,5,6,7" SetFlag="False" />
     </TAU>
-    <WDT Prepared="true" SetFlag="true" HelpID="watchdogtimer" NeedRefresh="False">
-      <WDT SetFlag="true" MacroName="WDT" />
+    <WDT Prepared="true" SetFlag="False" HelpID="watchdogtimer" NeedRefresh="False">
+      <WDT SetFlag="False" MacroName="WDT" />
     </WDT>
     <RTC SetFlag="True" HelpID="rtc" NeedRefresh="False">
       <RTC MacroName="RTC" SetFlag="True" />
@@ -1032,8 +1032,8 @@
       <setting name="RTC1HZ_OUTPUT_USED" value="false" />
     </RTC>
     <WDT>
-      <setting name="MODULE_USED" value="true" />
-      <setting name="MODULE_UNUSE" value="false" />
+      <setting name="MODULE_USED" value="false" />
+      <setting name="MODULE_UNUSE" value="true" />
       <setting name="OVERFLOW_TIME" value="7" />
       <setting name="WINDOW_OPEN_TIME" value="2" />
       <setting name="HALT_STOP_OPERATION_ENABLE" value="true" />
@@ -1200,5 +1200,509 @@
       <setting name="MODULE_UNUSE" value="true" />
       <setting name="SINGLE_MASTER_USED" value="false" />
     </IICA0>
+    <PORT>
+      <PortP1>
+        <P10>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P10>
+        <P11>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P11>
+        <P12>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P12>
+        <P13>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P13>
+        <P14>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P14>
+        <P15>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P15>
+        <P16>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P16>
+        <P17>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P17>
+      </PortP1>
+      <PortP2>
+        <P20>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P20>
+        <P21>
+          <setting name="MODULE_UNUSED" value="false" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="true" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="true" />
+        </P21>
+      </PortP2>
+      <PortP3>
+        <P30>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P30>
+        <P31>
+          <setting name="MODULE_UNUSED" value="false" />
+          <setting name="INPUT_MODE" value="true" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P31>
+        <P32>
+          <setting name="MODULE_UNUSED" value="false" />
+          <setting name="INPUT_MODE" value="true" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P32>
+      </PortP3>
+      <PortP4>
+        <P40>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="true" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P40>
+        <P41>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P41>
+        <P42>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P42>
+        <P43>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P43>
+      </PortP4>
+      <PortP5>
+        <P50>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P50>
+        <P51>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P51>
+        <P52>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P52>
+        <P53>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P53>
+        <P54>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P54>
+      </PortP5>
+      <PortP6>
+        <P60>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P60>
+        <P61>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P61>
+      </PortP6>
+      <PortP7>
+        <P70>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P70>
+        <P71>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P71>
+        <P72>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P72>
+        <P73>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P73>
+        <P74>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P74>
+      </PortP7>
+      <PortP12>
+        <P120>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P120>
+        <P121>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P121>
+        <P122>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P122>
+        <P123>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P123>
+        <P124>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P124>
+        <P125>
+          <setting name="MODULE_UNUSED" value="false" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="true" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="true" />
+        </P125>
+        <P126>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P126>
+        <P127>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P127>
+      </PortP12>
+      <PortP13>
+        <P130>
+          <setting name="MODULE_UNUSED" value="false" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="true" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="true" />
+        </P130>
+        <P137>
+          <setting name="MODULE_UNUSED" value="false" />
+          <setting name="INPUT_MODE" value="true" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P137>
+      </PortP13>
+      <PortP14>
+        <P140>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P140>
+        <P141>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P141>
+        <P142>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P142>
+        <P143>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P143>
+        <P144>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P144>
+        <P145>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P145>
+        <P146>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P146>
+        <P147>
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
+          <setting name="OUTPUT_MODE" value="false" />
+          <setting name="PULLUP_ON" value="false" />
+          <setting name="TTL_ON" value="false" />
+          <setting name="NCH_ON" value="false" />
+          <setting name="OUTPUT_1" value="false" />
+        </P147>
+      </PortP14>
+    </PORT>
+    <TAU0>
+      <Channel0>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+        <TAUInterval0>
+          <setting name="BOTH_8BITS_MODE" value="false" />
+          <setting name="LOWER_8BITS_MODE" value="false" />
+          <setting name="HIGHER_8BITS_MODE" value="false" />
+          <setting name="16BITS_MODE" value="true" />
+          <setting name="INPUT_VALUE" value="100" />
+          <setting name="INPUT_VALUE_SCALE" value="1" />
+          <setting name="HIGHER_8BITS_INPUT_VALUE" value="100" />
+          <setting name="HIGHER_8BITS_INPUT_VALUE_SCALE" value="-1" />
+          <setting name="LOWER_8BITS_INPUT_VALUE" value="100" />
+          <setting name="LOWER_8BITS_INPUT_VALUE_SCALE" value="-1" />
+          <setting name="COUNT_START_GENERATE_INTERRUPT" value="false" />
+          <setting name="INTERRUPT_USED" value="true" />
+          <setting name="INTERRUPT_PRIORITY" value="3" />
+          <setting name="HIGHER_8BITS_INTERRUPT_PRIORITY" value="3" />
+          <setting name="HIGHER_8BITS_INTERRUPT_USED" value="false" />
+        </TAUInterval0>
+      </Channel0>
+      <Channel1>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+      </Channel1>
+      <Channel2>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+      </Channel2>
+      <Channel3>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+      </Channel3>
+      <Channel4>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+        <TAUSquare4>
+          <setting name="INPUT_VALUE" value="100" />
+          <setting name="INPUT_VALUE_SCALE" value="1" />
+          <setting name="COUNT_START_GENERATE_INTERRUPT" value="false" />
+          <setting name="INITIAL_OUTPUT_VALUE" value="0" />
+          <setting name="INTERRUPT_USED" value="true" />
+          <setting name="INTERRUPT_PRIORITY" value="3" />
+        </TAUSquare4>
+      </Channel4>
+      <Channel5>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+      </Channel5>
+      <Channel6>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+      </Channel6>
+      <Channel7>
+        <setting name="CHANNEL_FUNCTION" value="0" />
+        <setting name="CHANNEL_PIN_SELECTION" value="-1" />
+      </Channel7>
+    </TAU0>
   </SETTING>
 </RL78L12>

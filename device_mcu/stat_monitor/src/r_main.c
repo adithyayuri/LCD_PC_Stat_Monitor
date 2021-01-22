@@ -31,8 +31,8 @@ Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
 #include "r_cg_cgc.h"
+#include "r_cg_port.h"
 #include "r_cg_serial.h"
-#include "r_cg_wdt.h"
 #include "r_cg_rtc.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
@@ -88,6 +88,7 @@ void R_MAIN_UserInit(void)
 {
     /* Start user code. Do not edit comment generated here */
     EI();
+
     /* End user code. Do not edit comment generated here */
 }
 
