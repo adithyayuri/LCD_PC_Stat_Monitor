@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for RTC module.
-* Creation Date: 22-01-2021
+* Creation Date: 24-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -32,6 +32,8 @@ Includes
 #include "r_cg_macrodriver.h"
 #include "r_cg_rtc.h"
 /* Start user code for include. Do not edit comment generated here */
+#include "rcg_lcd.h"
+#include "lcd_panel.h"
 #include "r_cg_serial.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -47,7 +49,13 @@ Pragma directive
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
-uint8_t buf[7] = "second\n";
+
+/* Create a new instance of data structure RTCCounterValue */
+rtc_counter_value_t st_rtc_data;
+
+/* Declare a buffer to hold the time for displaying on the LCD panel */
+int8_t  g_lcd_buffer[10] = "00:00:00";
+
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -74,7 +82,36 @@ static void __near r_rtc_interrupt(void)
 static void r_rtc_callback_constperiod(void)
 {
     /* Start user code. Do not edit comment generated here */
-	R_UART0_Send(buf, 7);
+
+
+	/* Read the RTC time */
+	R_RTC_Get_CounterValue(&st_rtc_data);
+
+    /* Read the day of the week value */
+    g_lcd_buffer[8] = (int8_t)(st_rtc_data.week & 0x0F);
+
+    /* Read the seconds value */
+	g_lcd_buffer[7] = (int8_t)((st_rtc_data.sec & 0x0F) + 0x30);
+	g_lcd_buffer[6] = (int8_t)((st_rtc_data.sec >> 4) + 0x30);
+
+    /* Read the minutes value */
+    g_lcd_buffer[4] = (int8_t)((st_rtc_data.min & 0x0F) + 0x30);
+    g_lcd_buffer[3] = (int8_t)((st_rtc_data.min >> 4) + 0x30);
+
+    /* Read the hours value */
+    g_lcd_buffer[1] = (int8_t)((st_rtc_data.hour & 0x0F) + 0x30);
+    g_lcd_buffer[0] = (int8_t)(((st_rtc_data.hour >> 4) & 0x03) + 0x30);
+
+    /* Update the time on the LCD panel.
+       Casting to ensure use of correct data type.*/
+    Display_Panel_String(PANEL_LCD_LINE2, g_lcd_buffer);
+    Display_Panel_String(PANEL_LCD_LINE3, (g_lcd_buffer + 6u));
+
+    /* Display the day of the week symbol */
+    SECTF_Glyph_Map(g_lcd_buffer[8]);
+
+
+
     /* End user code. Do not edit comment generated here */
 }
 

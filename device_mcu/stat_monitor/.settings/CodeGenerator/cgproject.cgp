@@ -905,7 +905,6 @@
         <cg_security2 Name="cg_security2" Value="00" />
         <cg_security1 Name="cg_security1" Value="00" />
         <cg_security9 Name="cg_security9" Value="00" />
-        <lvi_option Name="lvi_option" Value="FF" />
         <cg_security6 Name="cg_security6" Value="00" />
         <cg_crc_area Name="cg_crc_area" Value="00" />
         <cg_iawctl_value Name="cg_iawctl_value" Value="80" />
@@ -914,8 +913,9 @@
         <cg_security3 Name="cg_security3" Value="00" />
         <cg_security4 Name="cg_security4" Value="00" />
         <pior_value Name="pior_value" Value="00" />
-        <cg_security7 Name="cg_security7" Value="00" />
         <cg_option Name="cg_option" Value="04" />
+        <cg_security7 Name="cg_security7" Value="00" />
+        <lvi_option Name="lvi_option" Value="FF" />
       </GlobleUserTag>
     </TAG>
   </DIR>
@@ -1022,7 +1022,7 @@
       <setting name="MODULE_USED" value="true" />
       <setting name="MODULE_UNUSED" value="false" />
       <setting name="ALARM_OPERATION_USED" value="false" />
-      <setting name="HOUR_SYSTEM" value="0" />
+      <setting name="HOUR_SYSTEM" value="1" />
       <setting name="INITIAL_VALUE_USED" value="false" />
       <setting name="ALARM_VALUE_USED" value="false" />
       <setting name="INTERRUPT_PRIORITY" value="3" />

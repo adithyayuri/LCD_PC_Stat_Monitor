@@ -1,3 +1,5 @@
+E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/lcd_panel.drv.ud
+E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/lcd_panel.frt.ud
 E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/r_cg_cgc.drv.ud
 E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/r_cg_cgc.frt.ud
 E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/r_cg_cgc_user.drv.ud
@@ -18,5 +20,7 @@ E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/r_main.drv.ud
 E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/r_main.frt.ud
 E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/r_systeminit.drv.ud
 E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/r_systeminit.frt.ud
+E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/rcg_lcd.drv.ud
+E:/GitHUB repos/Stat_Monitor/device_mcu/stat_monitor/Release/src/rcg_lcd.frt.ud
 E:\GitHUB repos\Stat_Monitor\device_mcu\stat_monitor\Release/stat_monitor_l.ud
 E:\GitHUB repos\Stat_Monitor\device_mcu\stat_monitor\Release\stat_monitor_c.ud

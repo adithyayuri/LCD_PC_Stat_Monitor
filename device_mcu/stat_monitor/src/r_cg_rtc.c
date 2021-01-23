@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for RTC module.
-* Creation Date: 22-01-2021
+* Creation Date: 24-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -62,7 +62,7 @@ void R_RTC_Create(void)
     /* Set INTRTC low priority */
     RTCPR1 = 1U;
     RTCPR0 = 1U;
-    RTCC0 = _00_RTC_RTC1HZ_DISABLE | _00_RTC_12HOUR_SYSTEM | _02_RTC_INTRTC_CLOCK_1;
+    RTCC0 = _00_RTC_RTC1HZ_DISABLE | _08_RTC_24HOUR_SYSTEM | _02_RTC_INTRTC_CLOCK_1;
 }
 
 /***********************************************************************************************************************

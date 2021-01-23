@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements main function.
-* Creation Date: 22-01-2021
+* Creation Date: 24-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -35,6 +35,8 @@ Includes
 #include "r_cg_serial.h"
 #include "r_cg_rtc.h"
 /* Start user code for include. Do not edit comment generated here */
+#include "rcg_lcd.h"
+#include "lcd_panel.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -88,7 +90,10 @@ void R_MAIN_UserInit(void)
 {
     /* Start user code. Do not edit comment generated here */
     EI();
-
+    /* Setup the LCD panel */
+    R_LCD_Create();
+    /* Initialize the LCD panel */
+    Init_Display_Panel();
     /* End user code. Do not edit comment generated here */
 }
 

@@ -38,12 +38,11 @@ Includes
 /* Defines the I/O register structures */
 #include "iodefine.h"
 /* Defines the extended I/O register structures */
-#include "iodefine_ext.h"
 
 /* Header files inclusion */
 #include "r_cg_macrodriver.h"
 #include "r_cg_cgc.h"
-#include "r_cg_lcd.h"
+#include "rcg_lcd.h"
 #include "r_cg_userdefine.h"
 
 
@@ -95,22 +94,6 @@ void R_LCD_Create (void)
     PM7  &= 0x00;
     PM12 &= 0xFE;
     PM14 &= 0x00;
-    
-    /* Set the user LED port pins as outputs*/
-    LED1_DIR = 0;
-    LED2_DIR = 0;
-    
-    /* Turn off the user LEDs */
-    LED0 = LED_OFF;
-    LED1 = LED_OFF;
-    LED2 = LED_OFF;
-    
-    /* Configure ANI0 as an analog input,
-       and ANI1 as a digital IO */
-    ADPC = 0x02;
-    
-    /* Set LED1 pin as an output */
-    PM2 &= 0xFD;
     
     COMEXP = 0U;
     LCDM1 |= _00_LCD_DISPLAY_PATTERN_A;

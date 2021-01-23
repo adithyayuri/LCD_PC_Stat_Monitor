@@ -37,15 +37,14 @@ Includes
 /* Defines the I/O register structures */
 #include "iodefine.h"
 /* Defines the extended I/O register structures */
-#include "iodefine_ext.h"
 
 #include "r_cg_macrodriver.h"
-#include "r_cg_lcd.h"
+#include "rcg_lcd.h"
 #include "lcd_panel.h"
 
 /* Compiler instruction to optimise the following
    code from this point on until the end of the file */
-#pragma GCC optimize ("O2")
+//#pragma GCC optimize ("O2")
 
 /***********************************************************************************************************************
 Global Variables & Defined Constants 
@@ -1596,4 +1595,4 @@ void LCD_On (void)
 /***********************************************************************************************************************
 End of function LCD_On
 ************************************************************************************************************************/
-#pragma GCC reset_options
+//#pragma GCC reset_options

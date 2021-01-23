@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables
 C_SRCS += \
+../src/lcd_panel.c \
 ../src/r_cg_cgc.c \
 ../src/r_cg_cgc_user.c \
 ../src/r_cg_port.c \
@@ -13,9 +14,11 @@ C_SRCS += \
 ../src/r_cg_serial.c \
 ../src/r_cg_serial_user.c \
 ../src/r_main.c \
-../src/r_systeminit.c 
+../src/r_systeminit.c \
+../src/rcg_lcd.c 
 
 COMPILER_OBJS += \
+src/lcd_panel.obj \
 src/r_cg_cgc.obj \
 src/r_cg_cgc_user.obj \
 src/r_cg_port.obj \
@@ -25,9 +28,11 @@ src/r_cg_rtc_user.obj \
 src/r_cg_serial.obj \
 src/r_cg_serial_user.obj \
 src/r_main.obj \
-src/r_systeminit.obj 
+src/r_systeminit.obj \
+src/rcg_lcd.obj 
 
 C_DEPS += \
+src/lcd_panel.d \
 src/r_cg_cgc.d \
 src/r_cg_cgc_user.d \
 src/r_cg_port.d \
@@ -37,7 +42,8 @@ src/r_cg_rtc_user.d \
 src/r_cg_serial.d \
 src/r_cg_serial_user.d \
 src/r_main.d \
-src/r_systeminit.d 
+src/r_systeminit.d \
+src/rcg_lcd.d 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.obj: ../src/%.c 
