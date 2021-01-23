@@ -32,6 +32,8 @@ Includes
 #include "r_cg_macrodriver.h"
 #include "r_cg_serial.h"
 /* Start user code for include. Do not edit comment generated here */
+#include "rcg_lcd.h"
+#include "lcd_panel.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -52,6 +54,22 @@ extern volatile uint8_t * gp_uart0_rx_address;         /* uart0 receive buffer a
 extern volatile uint16_t  g_uart0_rx_count;            /* uart0 receive data number */
 extern volatile uint16_t  g_uart0_rx_length;           /* uart0 receive data length */
 /* Start user code for global. Do not edit comment generated here */
+
+struct cpu_elements{
+	uint8_t package_temp;
+	uint8_t max_core_temp;
+};
+
+struct gpu_elements{
+	uint8_t package_temp;
+};
+
+struct packet{
+	struct rtc_counter_value_t;
+	struct cpu_elements cpu;
+	struct gpu_elements gpu;
+};
+
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -163,4 +181,8 @@ static void r_uart0_callback_error(uint8_t err_type)
 }
 
 /* Start user code for adding. Do not edit comment generated here */
+
+
+
+
 /* End user code. Do not edit comment generated here */

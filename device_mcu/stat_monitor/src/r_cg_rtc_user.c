@@ -110,8 +110,6 @@ static void r_rtc_callback_constperiod(void)
     /* Display the day of the week symbol */
     SECTF_Glyph_Map(g_lcd_buffer[8]);
 
-
-
     /* End user code. Do not edit comment generated here */
 }
 

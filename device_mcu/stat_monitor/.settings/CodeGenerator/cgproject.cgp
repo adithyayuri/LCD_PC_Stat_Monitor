@@ -1022,7 +1022,7 @@
       <setting name="MODULE_USED" value="true" />
       <setting name="MODULE_UNUSED" value="false" />
       <setting name="ALARM_OPERATION_USED" value="false" />
-      <setting name="HOUR_SYSTEM" value="1" />
+      <setting name="HOUR_SYSTEM" value="0" />
       <setting name="INITIAL_VALUE_USED" value="false" />
       <setting name="ALARM_VALUE_USED" value="false" />
       <setting name="INTERRUPT_PRIORITY" value="3" />
