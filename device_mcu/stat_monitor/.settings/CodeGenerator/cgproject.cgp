@@ -606,10 +606,10 @@
               <r_uart0_interrupt_receive UserName="r_uart0_interrupt_receive" INTHandle="" LibName="r_uartn_interrupt_receive" InUse="1" />
               <r_uart0_interrupt_error UserName="" INTHandle="" LibName="r_uartn_interrupt_error" InUse="0" />
               <r_uart0_interrupt_send UserName="r_uart0_interrupt_send" INTHandle="" LibName="r_uartn_interrupt_send" InUse="1" />
-              <r_uart0_callback_receiveend UserName="" LibName="r_uartn_callback_receiveend" InUse="1" />
-              <r_uart0_callback_sendend UserName="" LibName="r_uartn_callback_sendend" InUse="1" />
-              <r_uart0_callback_error UserName="" LibName="r_uartn_callback_error" InUse="1" />
-              <r_uart0_callback_softwareoverrun UserName="" LibName="r_uartn_callback_softwareoverrun" InUse="1" />
+              <r_uart0_callback_receiveend UserName="" LibName="r_uartn_callback_receiveend" InUse="0" />
+              <r_uart0_callback_sendend UserName="" LibName="r_uartn_callback_sendend" InUse="0" />
+              <r_uart0_callback_error UserName="" LibName="r_uartn_callback_error" InUse="0" />
+              <r_uart0_callback_softwareoverrun UserName="" LibName="r_uartn_callback_softwareoverrun" InUse="0" />
             </UART0>
             <CSI00 InUse="">
               <r_csi00_interrupt UserName="" INTHandle="" LibName="r_csin_interrupt" InUse="0" />
@@ -1016,7 +1016,7 @@
       <setting name="DataFlash" value="unused" />
     </CGC>
     <RTC>
-      <setting name="INITIAL_VALUE" value="01/01/2000 00:00:00" />
+      <setting name="INITIAL_VALUE" value="01/01/2000 12:00:00" />
       <setting name="ALARM_WEEK_DAY" value="Unchecked_Unchecked_Unchecked_Unchecked_Unchecked_Unchecked_Unchecked_" />
       <setting name="ALARM_TIME" value="01/01/2000 00:00:00" />
       <setting name="MODULE_USED" value="true" />
@@ -1124,8 +1124,8 @@
           <setting name="RECEIVE_PARITY_ZERO" value="false" />
           <setting name="RECEIVE_PARITY_NONE" value="true" />
           <setting name="RECEIVE_TRANSFER_BAUDRATE_VALUE" value="9600" />
-          <setting name="CALLBACK_RECEIVE_END_USE" value="true" />
-          <setting name="CALLBACK_RECEIVE_ERROR_USE" value="true" />
+          <setting name="CALLBACK_RECEIVE_END_USE" value="false" />
+          <setting name="CALLBACK_RECEIVE_ERROR_USE" value="false" />
           <setting name="TRANSFER_MODE_CONTINUOUS" value="false" />
           <setting name="TRANSFER_MODE_SINGLE" value="true" />
           <setting name="TRANSMIT_DATA_DIRECTION_LSB" value="true" />
@@ -1143,11 +1143,11 @@
           <setting name="TRANSMIT_STOP_LENGTH_2_BITS" value="false" />
           <setting name="TRANSMIT_STOP_LENGTH_1_BIT" value="true" />
           <setting name="TRANSMIT_TRANSFER_BAUDRATE_VALUE" value="9600" />
-          <setting name="CALLBACK_TRANSMIT_END_USE" value="true" />
+          <setting name="CALLBACK_TRANSMIT_END_USE" value="false" />
           <setting name="INT_PRIORITY_TRANSMIT_END" value="3" />
           <setting name="RECEIVE_ERROR_INTTERUPT" value="false" />
           <setting name="INT_PRIORITY_RECEPTION_ERROR" value="3" />
-          <setting name="INT_PRIORITY_RECEPTION_END" value="3" />
+          <setting name="INT_PRIORITY_RECEPTION_END" value="0" />
         </Both_UART0>
         <Receive_UART0>
           <setting name="RECEIVE_DATA_DIRECTION_LSB" value="true" />

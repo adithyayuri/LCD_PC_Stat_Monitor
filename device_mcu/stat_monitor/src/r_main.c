@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements main function.
-* Creation Date: 24-01-2021
+* Creation Date: 30-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -37,6 +37,14 @@ Includes
 /* Start user code for include. Do not edit comment generated here */
 #include "rcg_lcd.h"
 #include "lcd_panel.h"
+#include "r_cg_userdefine.h"
+#include "buffer.h"
+#include "rcg_serial_user.h"
+
+/***********************************************************************************************************************
+Pragma directive
+***********************************************************************************************************************/
+/* Start user code for pragma. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -51,7 +59,10 @@ Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
 long delay=0;
+int a;
+uint8_t temp;
 uint8_t text[6] = "Hello\n";
+
 /* End user code. Do not edit comment generated here */
 void R_MAIN_UserInit(void);
 
@@ -73,8 +84,10 @@ void main(void)
     while (1U)
     {
 
-    	for(delay=0; delay<2000000; delay++);
+    	for(delay=0; delay<200000; delay++);
+    	cbuff_print_uart();
     	//R_UART0_Send(text, 6);
+
 
     }
     /* End user code. Do not edit comment generated here */
@@ -94,8 +107,14 @@ void R_MAIN_UserInit(void)
     R_LCD_Create();
     /* Initialize the LCD panel */
     Init_Display_Panel();
+
+    init_buffer();
+
     /* End user code. Do not edit comment generated here */
 }
 
 /* Start user code for adding. Do not edit comment generated here */
+
+
+
 /* End user code. Do not edit comment generated here */

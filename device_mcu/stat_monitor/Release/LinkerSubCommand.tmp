@@ -1,5 +1,6 @@
 -input=".\generate\cstart.obj"
 -input=".\generate\stkinit.obj"
+-input=".\src\buffer.obj"
 -input=".\src\lcd_panel.obj"
 -input=".\src\r_cg_cgc.obj"
 -input=".\src\r_cg_cgc_user.obj"

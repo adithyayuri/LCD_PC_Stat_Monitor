@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables
 C_SRCS += \
+../src/buffer.c \
 ../src/lcd_panel.c \
 ../src/r_cg_cgc.c \
 ../src/r_cg_cgc_user.c \
@@ -18,6 +19,7 @@ C_SRCS += \
 ../src/rcg_lcd.c 
 
 COMPILER_OBJS += \
+src/buffer.obj \
 src/lcd_panel.obj \
 src/r_cg_cgc.obj \
 src/r_cg_cgc_user.obj \
@@ -32,6 +34,7 @@ src/r_systeminit.obj \
 src/rcg_lcd.obj 
 
 C_DEPS += \
+src/buffer.d \
 src/lcd_panel.d \
 src/r_cg_cgc.d \
 src/r_cg_cgc_user.d \

@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 24-01-2021
+* Creation Date: 30-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -32,8 +32,7 @@ Includes
 #include "r_cg_macrodriver.h"
 #include "r_cg_serial.h"
 /* Start user code for include. Do not edit comment generated here */
-#include "rcg_lcd.h"
-#include "lcd_panel.h"
+#include "rcg_serial_user.h"
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
 
@@ -41,8 +40,9 @@ Includes
 Pragma directive
 ***********************************************************************************************************************/
 #pragma interrupt r_uart0_interrupt_send(vect=INTST0)
-#pragma interrupt r_uart0_interrupt_receive(vect=INTSR0)
+#pragma interrupt r_uart0_interrupt_receive_buffer_fill(vect=INTSR0)
 /* Start user code for pragma. Do not edit comment generated here */
+
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -56,20 +56,33 @@ extern volatile uint16_t  g_uart0_rx_length;           /* uart0 receive data len
 /* Start user code for global. Do not edit comment generated here */
 
 struct cpu_elements{
-	uint8_t package_temp;
+	uint8_t pkg_temp;
 	uint8_t max_core_temp;
 };
 
 struct gpu_elements{
-	uint8_t package_temp;
+	uint8_t pkg_temp;
 };
+
+struct reserved_elements{
+	uint8_t reserved_1;
+	uint8_t reserved_2;
+	uint8_t reserved_3;
+	uint8_t reserved_4;
+	uint8_t reserved_5;
+};
+
 
 struct packet{
-	struct rtc_counter_value_t;
+	uint8_t start;
+	rtc_counter_value_t date_time;
 	struct cpu_elements cpu;
 	struct gpu_elements gpu;
+	struct reserved_elements reserved;
 };
 
+cbuff_t * cb;
+uint8_t BUFFER_SIZE = 32;
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -85,12 +98,6 @@ static void __near r_uart0_interrupt_receive(void)
     
     err_type = (uint8_t)(SSR01 & 0x0007U);
     SIR01 = (uint16_t)err_type;
-    
-    if (err_type != 0U)
-    {
-        r_uart0_callback_error(err_type);
-    }
-    
     rx_data = RXD0;
 
     if (g_uart0_rx_length > g_uart0_rx_count)
@@ -98,15 +105,6 @@ static void __near r_uart0_interrupt_receive(void)
         *gp_uart0_rx_address = rx_data;
         gp_uart0_rx_address++;
         g_uart0_rx_count++;
-
-        if (g_uart0_rx_length == g_uart0_rx_count)
-        {
-            r_uart0_callback_receiveend();
-        }
-    }
-    else
-    {
-        r_uart0_callback_softwareoverrun(rx_data);
     }
 }
 
@@ -124,65 +122,43 @@ static void __near r_uart0_interrupt_send(void)
         gp_uart0_tx_address++;
         g_uart0_tx_count--;
     }
-    else
-    {
-        r_uart0_callback_sendend();
-    }
-}
-
-/***********************************************************************************************************************
-* Function Name: r_uart0_callback_receiveend
-* Description  : This function is a callback function when UART0 finishes reception.
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
-static void r_uart0_callback_receiveend(void)
-{
-    /* Start user code. Do not edit comment generated here */
-    /* End user code. Do not edit comment generated here */
-}
-
-/***********************************************************************************************************************
-* Function Name: r_uart0_callback_softwareoverrun
-* Description  : This function is a callback function when UART0 receives an overflow data.
-* Arguments    : rx_data -
-*                    receive data
-* Return Value : None
-***********************************************************************************************************************/
-static void r_uart0_callback_softwareoverrun(uint16_t rx_data)
-{
-    /* Start user code. Do not edit comment generated here */
-    /* End user code. Do not edit comment generated here */
-}
-
-/***********************************************************************************************************************
-* Function Name: r_uart0_callback_sendend
-* Description  : This function is a callback function when UART0 finishes transmission.
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
-static void r_uart0_callback_sendend(void)
-{
-    /* Start user code. Do not edit comment generated here */
-    /* End user code. Do not edit comment generated here */
-}
-
-/***********************************************************************************************************************
-* Function Name: r_uart0_callback_error
-* Description  : This function is a callback function when UART0 reception error occurs.
-* Arguments    : err_type -
-*                    error type value
-* Return Value : None
-***********************************************************************************************************************/
-static void r_uart0_callback_error(uint8_t err_type)
-{
-    /* Start user code. Do not edit comment generated here */
-    /* End user code. Do not edit comment generated here */
 }
 
 /* Start user code for adding. Do not edit comment generated here */
 
 
+static void __near r_uart0_interrupt_receive_buffer_fill(void)
+{
+    volatile uint8_t rx_data;
+    volatile uint8_t err_type;
 
+    err_type = (uint8_t)(SSR01 & 0x0007U);
+    SIR01 = (uint16_t)err_type;
+
+    rx_data = RXD0;
+    cbuff_add(cb, rx_data);
+
+}
+
+
+void init_buffer(void)
+{
+	cb = cbuff_new(BUFFER_SIZE);
+}
+
+
+void cbuff_print_uart(void)
+{
+  int start = cb->start ;
+  int end = cb->end ;
+  int i, count = 0;
+  for(i = start; count < cb->count; i = (i + 1)%cb->size){
+	TXD0 = cb->buff[i];
+	count++;
+    if(i == (end - 1)) {
+      break;
+    }
+  }
+}
 
 /* End user code. Do not edit comment generated here */

@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for RTC module.
-* Creation Date: 24-01-2021
+* Creation Date: 30-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -100,7 +100,7 @@ static void r_rtc_callback_constperiod(void)
 
     /* Read the hours value */
     g_lcd_buffer[1] = (int8_t)((st_rtc_data.hour & 0x0F) + 0x30);
-    g_lcd_buffer[0] = (int8_t)(((st_rtc_data.hour >> 4) & 0x03) + 0x30);
+    g_lcd_buffer[0] = (int8_t)(((st_rtc_data.hour >> 4) & 0x01) + 0x30);
 
     /* Update the time on the LCD panel.
        Casting to ensure use of correct data type.*/
@@ -109,6 +109,15 @@ static void r_rtc_callback_constperiod(void)
 
     /* Display the day of the week symbol */
     SECTF_Glyph_Map(g_lcd_buffer[8]);
+
+    if (st_rtc_data.hour & 0x20){
+    	Symbol_Map(LCD_AM_OFF);
+    	Symbol_Map(LCD_PM_ON);
+    }
+    else{
+    	Symbol_Map(LCD_PM_OFF);
+    	Symbol_Map(LCD_AM_ON);
+    }
 
     /* End user code. Do not edit comment generated here */
 }

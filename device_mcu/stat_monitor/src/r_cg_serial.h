@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 24-01-2021
+* Creation Date: 30-01-2021
 ***********************************************************************************************************************/
 
 #ifndef SERIAL_H
@@ -342,10 +342,6 @@ void R_UART0_Start(void);
 void R_UART0_Stop(void);
 MD_STATUS R_UART0_Send(uint8_t * const tx_buf, uint16_t tx_num);
 MD_STATUS R_UART0_Receive(uint8_t * const rx_buf, uint16_t rx_num);
-static void r_uart0_callback_error(uint8_t err_type);
-static void r_uart0_callback_receiveend(void);
-static void r_uart0_callback_sendend(void);
-static void r_uart0_callback_softwareoverrun(uint16_t rx_data);
 
 /* Start user code for function. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */

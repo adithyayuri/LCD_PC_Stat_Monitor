@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 24-01-2021
+* Creation Date: 30-01-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -87,9 +87,9 @@ void R_UART0_Create(void)
     /* Set INTST0 low priority */
     STPR10 = 1U;
     STPR00 = 1U;
-    /* Set INTSR0 low priority */
-    SRPR10 = 1U;
-    SRPR00 = 1U;
+    /* Set INTSR0 hign priority */
+    SRPR10 = 0U;
+    SRPR00 = 0U;
     SMR00 = _0020_SAU_SMRMN_INITIALVALUE | _0000_SAU_CLOCK_SELECT_CK00 | _0000_SAU_TRIGGER_SOFTWARE |
             _0002_SAU_MODE_UART | _0000_SAU_TRANSFER_END;
     SCR00 = _8000_SAU_TRANSMISSION | _0000_SAU_INTSRE_MASK | _0000_SAU_PARITY_NONE | _0080_SAU_LSB | _0010_SAU_STOP_1 |
