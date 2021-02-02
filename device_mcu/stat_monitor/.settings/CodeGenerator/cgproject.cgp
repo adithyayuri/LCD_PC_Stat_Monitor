@@ -72,10 +72,10 @@
     <MCUType Name="MCUType" Fixed="" Text="RL78" />
     <Compiler Name="Compiler" Text="CCRL" />
     <UseSecurityId Name="GI" Text="0" />
-    <SecurityId Name="GIValue" Text="00000000000000000000" />
+    <SecurityId Name="GIValue" Text="" />
     <LinkDirectiveFile Name="D0" Text="lk.dr" />
     <OnChipDebugOptionBytes Name="GO" Text="1" />
-    <OnChipDebugOptionBytesValue Name="GOValue" Text="04" />
+    <OnChipDebugOptionBytesValue Name="GOValue" Text="84" />
     <StartAddressOfOnChipDebugOptionBytes Name="GOStart" Text="7E00" />
     <SizeOfOnChipDebugOptionBytesArea Name="GOSizeValue" Text="512" />
     <UserOptionBytes Name="GB" Text="1" />
@@ -90,7 +90,7 @@
     <GenerateType Name="GenerateType" Text="Merge" />
     <APIOutputType Name="APIOutputType" Text="Default" />
     <fCLKSource Name="fCLKSource" Text="fIH" />
-    <HasRRMRam Name="HasRRMRam" Text="" />
+    <HasRRMRam Name="HasRRMRam" Text="07E00" />
     <PrjVersion Name="PrjVersion" Text="1.2.0.1" />
     <ProductVersion Name="ProductVersion" Text="2.17.00.01" />
     <LinkFileName Name="LinkFileName" Text="" />
@@ -128,7 +128,7 @@
           <P32 Name="P32/TI03/TO03/INTP4/SEG17" AltFunc="P32" Point="I/O" />
         </Port3>
         <Port4 Chip="RL78L12_64pin" Pullup="true">
-          <P40 Name="P40/TOOL0" AltFunc="" Point="I/O" />
+          <P40 Name="P40/TOOL0" AltFunc="TOOL0" Point="I/O" />
           <P41 Name="P41/ANI16/TI04/TO04/SEG24" DIN="true" AltFunc="" Point="I/O" />
           <P42 Name="P42/TI05/TO05/SEG23" AltFunc="" Point="I/O" />
           <P43 Name="P43/INTP7/SEG22" AltFunc="" Point="I/O" />
@@ -586,16 +586,16 @@
             </CSI01>
           </SAU0>
           <IICA0 InUse="">
-            <R_IICA0_Create UserName="" LibName="R_IICAn_Create" InUse="" Init="1" InitMode="" />
-            <R_IICA0_Master_Send UserName="" LibName="R_IICAn_Master_Send" InUse="" />
-            <R_IICA0_Master_Receive UserName="" LibName="R_IICAn_Master_Receive" InUse="" />
-            <R_IICA0_Slave_Send UserName="" LibName="R_IICAn_Slave_Send" InUse="" />
-            <R_IICA0_Slave_Receive UserName="" LibName="R_IICAn_Slave_Receive" InUse="" />
-            <R_IICA0_Stop UserName="" LibName="R_IICAn_Stop" InUse="" />
-            <R_IICA0_StopCondition UserName="" LibName="R_IICAn_StopCondition" InUse="" />
-            <R_IICA0_Set_SnoozeOn UserName="" LibName="R_IICAn_Set_SnoozeOn" InUse="" />
-            <R_IICA0_Set_SnoozeOff UserName="" LibName="R_IICAn_Set_SnoozeOff" InUse="" />
-            <R_IICA0_Set_PowerOff UserName="" LibName="R_IICAn_Set_PowerOff" InUse="" />
+            <R_IICA0_Create UserName="" LibName="R_IICAn_Create" InUse="0" Init="1" InitMode="" />
+            <R_IICA0_Master_Send UserName="" LibName="R_IICAn_Master_Send" InUse="0" />
+            <R_IICA0_Master_Receive UserName="" LibName="R_IICAn_Master_Receive" InUse="0" />
+            <R_IICA0_Slave_Send UserName="" LibName="R_IICAn_Slave_Send" InUse="0" />
+            <R_IICA0_Slave_Receive UserName="" LibName="R_IICAn_Slave_Receive" InUse="0" />
+            <R_IICA0_Stop UserName="" LibName="R_IICAn_Stop" InUse="0" />
+            <R_IICA0_StopCondition UserName="" LibName="R_IICAn_StopCondition" InUse="0" />
+            <R_IICA0_Set_SnoozeOn UserName="" LibName="R_IICAn_Set_SnoozeOn" InUse="0" />
+            <R_IICA0_Set_SnoozeOff UserName="" LibName="R_IICAn_Set_SnoozeOff" InUse="0" />
+            <R_IICA0_Set_PowerOff UserName="" LibName="R_IICAn_Set_PowerOff" InUse="0" />
           </IICA0>
         </r_cg_serial.c>
         <r_cg_serial_user.c UserName="r_cg_serial_user.c" LibName="_user.c" InUse="1">
@@ -625,15 +625,15 @@
             </CSI01>
           </SAU0>
           <IICA0 InUse="">
-            <R_IICA0_Create_UserInit UserName="" LibName="R_IICAn_Create_UserInit" InUse="" />
-            <r_iica0_interrupt UserName="" INTHandle="" LibName="r_iican_interrupt" InUse="" />
-            <r_iica0_callback_master_sendend UserName="" LibName="r_iican_callback_master_sendend" InUse="" />
-            <r_iica0_callback_master_receiveend UserName="" LibName="r_iican_callback_master_receiveend" InUse="" />
-            <r_iica0_callback_slave_sendend UserName="" LibName="r_iican_callback_slave_sendend" InUse="" />
-            <r_iica0_callback_slave_receiveend UserName="" LibName="r_iican_callback_slave_receiveend" InUse="" />
-            <r_iica0_callback_master_error UserName="" LibName="r_iican_callback_master_error" InUse="" />
-            <r_iica0_callback_slave_error UserName="" LibName="r_iican_callback_slave_error" InUse="" />
-            <r_iica0_callback_getstopcondition UserName="" LibName="r_iican_callback_getstopcondition" InUse="" />
+            <R_IICA0_Create_UserInit UserName="" LibName="R_IICAn_Create_UserInit" InUse="0" />
+            <r_iica0_interrupt UserName="" INTHandle="" LibName="r_iican_interrupt" InUse="0" />
+            <r_iica0_callback_master_sendend UserName="" LibName="r_iican_callback_master_sendend" InUse="0" />
+            <r_iica0_callback_master_receiveend UserName="" LibName="r_iican_callback_master_receiveend" InUse="0" />
+            <r_iica0_callback_slave_sendend UserName="" LibName="r_iican_callback_slave_sendend" InUse="0" />
+            <r_iica0_callback_slave_receiveend UserName="" LibName="r_iican_callback_slave_receiveend" InUse="0" />
+            <r_iica0_callback_master_error UserName="" LibName="r_iican_callback_master_error" InUse="0" />
+            <r_iica0_callback_slave_error UserName="" LibName="r_iican_callback_slave_error" InUse="0" />
+            <r_iica0_callback_getstopcondition UserName="" LibName="r_iican_callback_getstopcondition" InUse="0" />
           </IICA0>
         </r_cg_serial_user.c>
         <r_cg_serial.h UserName="r_cg_serial.h" LibName=".h" InUse="1" />
@@ -903,19 +903,22 @@
         <wdt_option Name="wdt_option" Value="EF" />
         <cg_security8 Name="cg_security8" Value="00" />
         <cg_security2 Name="cg_security2" Value="00" />
+        <lvi_option Name="lvi_option" Value="FF" />
         <cg_security1 Name="cg_security1" Value="00" />
         <cg_security9 Name="cg_security9" Value="00" />
         <cg_security6 Name="cg_security6" Value="00" />
         <cg_crc_area Name="cg_crc_area" Value="00" />
+        <cg_onchip Name="cg_onchip" Value="" />
         <cg_iawctl_value Name="cg_iawctl_value" Value="80" />
         <cg_security0 Name="cg_security0" Value="00" />
         <ocdstart Name="ocdstart" Value="07E00" />
         <cg_security3 Name="cg_security3" Value="00" />
         <cg_security4 Name="cg_security4" Value="00" />
         <pior_value Name="pior_value" Value="00" />
-        <cg_option Name="cg_option" Value="04" />
+        <cg_ocd_ram_size Name="cg_ocd_ram_size" Value="512" />
+        <rrm Name="rrm" Value="07E00" />
         <cg_security7 Name="cg_security7" Value="00" />
-        <lvi_option Name="lvi_option" Value="FF" />
+        <cg_option Name="cg_option" Value="84" />
       </GlobleUserTag>
     </TAG>
   </DIR>
@@ -935,7 +938,7 @@
         <Channel0 UART="0" CSI="00" Channel="0" />
         <Channel1 UART="0" CSI="01" Channel="1" />
       </SAU0>
-      <IICA0 Accelerate="No" MacroName="IICA" Channel="0" TabEnable="True" />
+      <IICA0 Accelerate="No" MacroName="IICA" Channel="0" TabEnable="True" SetFlag="False" />
     </Serial>
     <ADC SetFlag="" HelpID="adc" NeedRefresh="False">
       <ADC SetFlag="" MacroName="ADC" />
@@ -993,13 +996,13 @@
       <setting name="SUBCLOCK_HALT_STOP_STATUS" value="0" />
       <setting name="CPU_PERIPHERAL_CLOCK_FREQUENCY" value="0" />
       <setting name="RTC_IT_CLOCK" value="0" />
-      <setting name="OCD_UNUSED" value="true" />
-      <setting name="OCD_USED" value="false" />
+      <setting name="OCD_UNUSED" value="false" />
+      <setting name="OCD_USED" value="true" />
       <setting name="RRM_UNUSED" value="false" />
       <setting name="RRM_USED" value="true" />
       <setting name="SECURITY_ID_AUTHENTICATION_ERASE" value="true" />
       <setting name="SECURITY_ID_AUTHENTICATION_NOT_ERASE" value="false" />
-      <setting name="SECURITY_ID_SELECT" value="true" />
+      <setting name="SECURITY_ID_SELECT" value="false" />
       <setting name="SECURITY_ID_VALUE" value="0x00000000000000000000" />
       <setting name="RESET_SOURCE_FUNCTION_OUTPUT" value="true" />
       <setting name="ILLEGAL_MEMORY_ACCESS_UNUSED" value="false" />
@@ -1110,6 +1113,26 @@
       <Channel0>
         <setting name="CHANNEL_FUNCTION" value="1" />
         <setting name="DETAIL_FUNCTION" value="2" />
+        <Receive_CSI00>
+          <setting name="TRANSFER_MODE_CONTINUOUS" value="false" />
+          <setting name="TRANSFER_MODE_SINGLE" value="true" />
+          <setting name="DATA_LENGTH_8_BITS" value="true" />
+          <setting name="DATA_LENGTH_7_BITS" value="false" />
+          <setting name="DATA_LENGTH_LIST" value="1" />
+          <setting name="SSI00" value="Unused" />
+          <setting name="DATA_DIRECTION_LSB" value="true" />
+          <setting name="DATA_DIRECTION_MSB" value="false" />
+          <setting name="DADA_TIMING_TYPE_1" value="true" />
+          <setting name="DADA_TIMING_TYPE_2" value="false" />
+          <setting name="DADA_TIMING_TYPE_3" value="false" />
+          <setting name="DADA_TIMING_TYPE_4" value="false" />
+          <setting name="TRANSFER_RATE_VALUE" value="9600" />
+          <setting name="CLOCK_MODE" value="0" />
+          <setting name="CALLBACK_TRANSMIT_END_USE" value="true" />
+          <setting name="CALLBACK_RECEIVE_END_USE" value="true" />
+          <setting name="CALLBACK_RECEIVE_ERROR_USE" value="true" />
+          <setting name="INT_PRIORITY_TRANSFER_END" value="3" />
+        </Receive_CSI00>
         <Both_UART0>
           <setting name="RECEIVE_DATA_DIRECTION_LSB" value="true" />
           <setting name="RECEIVE_DATA_DIRECTION_MSB" value="false" />
@@ -1123,7 +1146,7 @@
           <setting name="RECEIVE_PARITY_ODD" value="false" />
           <setting name="RECEIVE_PARITY_ZERO" value="false" />
           <setting name="RECEIVE_PARITY_NONE" value="true" />
-          <setting name="RECEIVE_TRANSFER_BAUDRATE_VALUE" value="9600" />
+          <setting name="RECEIVE_TRANSFER_BAUDRATE_VALUE" value="115200" />
           <setting name="CALLBACK_RECEIVE_END_USE" value="false" />
           <setting name="CALLBACK_RECEIVE_ERROR_USE" value="false" />
           <setting name="TRANSFER_MODE_CONTINUOUS" value="false" />
@@ -1142,7 +1165,7 @@
           <setting name="TRANSMIT_PARITY_NONE" value="true" />
           <setting name="TRANSMIT_STOP_LENGTH_2_BITS" value="false" />
           <setting name="TRANSMIT_STOP_LENGTH_1_BIT" value="true" />
-          <setting name="TRANSMIT_TRANSFER_BAUDRATE_VALUE" value="9600" />
+          <setting name="TRANSMIT_TRANSFER_BAUDRATE_VALUE" value="115200" />
           <setting name="CALLBACK_TRANSMIT_END_USE" value="false" />
           <setting name="INT_PRIORITY_TRANSMIT_END" value="3" />
           <setting name="RECEIVE_ERROR_INTTERUPT" value="false" />

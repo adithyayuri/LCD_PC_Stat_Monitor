@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements main function.
-* Creation Date: 30-01-2021
+* Creation Date: 02-02-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -77,16 +77,16 @@ void main(void)
     R_MAIN_UserInit();
     /* Start user code. Do not edit comment generated here */
     R_UART0_Start();
-    for(delay=0; delay<200000; delay++);
+    for(delay=0; delay<200; delay++);
     R_RTC_Start();
-    for(delay=0; delay<200000; delay++);
-
+    //R_UART0_Send(text, 6);
+    //R_UART0_Send(text, 6);
     while (1U)
     {
 
     	for(delay=0; delay<200000; delay++);
-    	cbuff_print_uart();
-    	//R_UART0_Send(text, 6);
+    	//cbuff_print_uart();
+
 
 
     }

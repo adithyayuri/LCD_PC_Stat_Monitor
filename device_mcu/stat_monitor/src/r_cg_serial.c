@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 30-01-2021
+* Creation Date: 02-02-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -65,7 +65,7 @@ void R_SAU0_Create(void)
     NOP();
     NOP();
     NOP();
-    SPS0 = _0004_SAU_CK00_FCLK_4 | _0040_SAU_CK01_FCLK_4;
+    SPS0 = _0000_SAU_CK00_FCLK_0 | _0000_SAU_CK01_FCLK_0;
     R_UART0_Create();
 }
 
@@ -94,14 +94,14 @@ void R_UART0_Create(void)
             _0002_SAU_MODE_UART | _0000_SAU_TRANSFER_END;
     SCR00 = _8000_SAU_TRANSMISSION | _0000_SAU_INTSRE_MASK | _0000_SAU_PARITY_NONE | _0080_SAU_LSB | _0010_SAU_STOP_1 |
             _0007_SAU_LENGTH_8;
-    SDR00 = _9A00_UART0_TRANSMIT_DIVISOR;
+    SDR00 = _CE00_UART0_TRANSMIT_DIVISOR;
     NFEN0 |= _01_SAU_RXD0_FILTER_ON;
     SIR01 = _0004_SAU_SIRMN_FECTMN | _0002_SAU_SIRMN_PECTMN | _0001_SAU_SIRMN_OVCTMN;    /* clear error flag */
     SMR01 = _0020_SAU_SMRMN_INITIALVALUE | _0000_SAU_CLOCK_SELECT_CK00 | _0100_SAU_TRIGGER_RXD | _0000_SAU_EDGE_FALL |
             _0002_SAU_MODE_UART | _0000_SAU_TRANSFER_END;
     SCR01 = _4000_SAU_RECEPTION | _0000_SAU_INTSRE_MASK | _0000_SAU_PARITY_NONE | _0080_SAU_LSB | _0010_SAU_STOP_1 |
             _0007_SAU_LENGTH_8;
-    SDR01 = _9A00_UART0_RECEIVE_DIVISOR;
+    SDR01 = _CE00_UART0_RECEIVE_DIVISOR;
     SO0 |= _0001_SAU_CH0_DATA_OUTPUT_1;
     SOL0 |= _0000_SAU_CHANNEL0_NORMAL;    /* output level normal */
     SOE0 |= _0001_SAU_CH0_OUTPUT_ENABLE;    /* enable UART0 output */

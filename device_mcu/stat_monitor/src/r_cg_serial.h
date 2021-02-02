@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for Serial module.
-* Creation Date: 30-01-2021
+* Creation Date: 02-02-2021
 ***********************************************************************************************************************/
 
 #ifndef SERIAL_H
@@ -326,8 +326,8 @@ Macro definitions (Register bit)
 /***********************************************************************************************************************
 Macro definitions
 ***********************************************************************************************************************/
-#define _9A00_UART0_RECEIVE_DIVISOR              (0x9A00U)
-#define _9A00_UART0_TRANSMIT_DIVISOR             (0x9A00U)
+#define _CE00_UART0_RECEIVE_DIVISOR              (0xCE00U)
+#define _CE00_UART0_TRANSMIT_DIVISOR             (0xCE00U)
 
 /***********************************************************************************************************************
 Typedef definitions

@@ -16,7 +16,7 @@ class SerialComms():
                 port = port.device
                 return port
 
-    def connect(self, buad=115200, timeout=1):
+    def connect(self, buad=115200, timeout=5):
         port = self.find_com_from_vid_pid()
         if port is None:
             logging.warning('PORT not availabe, board not connected?')
@@ -58,3 +58,7 @@ class SerialComms():
     def write(self, data):
         if self.virtual_com.is_open:
             self.virtual_com.write(data)
+
+    def read(self):
+        if self.virtual_com.is_open:
+            return self.virtual_com.read(16)
