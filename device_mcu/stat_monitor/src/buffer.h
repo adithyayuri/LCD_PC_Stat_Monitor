@@ -12,9 +12,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "r_cg_macrodriver.h"
 
 typedef struct cbuff_{
-    int * buff;
+    uint8_t * buff;
     int start;
     int end;
     int size;
@@ -26,6 +27,9 @@ void cbuff_add(cbuff_t * cb, int elem);
 int cbuff_remove(cbuff_t * cb);
 void cbuff_print(cbuff_t * cb);
 void cbuff_delete(cbuff_t * cb);
+
+int cbuff_data_count(cbuff_t * cb);
+void cbuff_reset(cbuff_t * cb);
 
 
 #endif

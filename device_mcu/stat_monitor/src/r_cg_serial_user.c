@@ -55,33 +55,9 @@ extern volatile uint16_t  g_uart0_rx_count;            /* uart0 receive data num
 extern volatile uint16_t  g_uart0_rx_length;           /* uart0 receive data length */
 /* Start user code for global. Do not edit comment generated here */
 
-struct cpu_elements{
-	uint8_t pkg_temp;
-	uint8_t max_core_temp;
-};
-
-struct gpu_elements{
-	uint8_t pkg_temp;
-};
-
-struct reserved_elements{
-	uint8_t reserved_1;
-	uint8_t reserved_2;
-	uint8_t reserved_3;
-	uint8_t reserved_4;
-	uint8_t reserved_5;
-};
 
 
-struct packet{
-	uint8_t start;
-	rtc_counter_value_t date_time;
-	struct cpu_elements cpu;
-	struct gpu_elements gpu;
-	struct reserved_elements reserved;
-};
-
-cbuff_t * cb;
+extern cbuff_t * cb;
 uint8_t BUFFER_SIZE = 32;
 /* End user code. Do not edit comment generated here */
 
@@ -131,15 +107,12 @@ static void __near r_uart0_interrupt_receive_buffer_fill(void)
 {
     volatile uint8_t rx_data;
     volatile uint8_t err_type;
-    uint8_t display_buffer[5] = "aBCD";
 
     err_type = (uint8_t)(SSR01 & 0x0007U);
     SIR01 = (uint16_t)err_type;
 
     rx_data = RXD0;
-    TXD0 = rx_data;
-
-    Display_Panel_String(PANEL_LCD_LINE1, display_buffer);
+    cbuff_add(cb, rx_data);
 
 }
 
@@ -154,8 +127,9 @@ void cbuff_print_uart(void)
 {
   int start = cb->start ;
   int end = cb->end ;
-  int i, count = 0;
+  int i, count = 0,j;
   for(i = start; count < cb->count; i = (i + 1)%cb->size){
+	for(j=0; j<1000; j++);
 	TXD0 = cb->buff[i];
 	count++;
     if(i == (end - 1)) {

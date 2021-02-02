@@ -58,11 +58,40 @@ Pragma directive
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
+cbuff_t * cb;
 long delay=0;
 int a;
 uint8_t temp;
 uint8_t text[6] = "Hello\n";
 
+
+struct cpu_elements{
+	uint8_t pkg_temp;
+	uint8_t pkg_temp_fraction;
+	uint8_t max_core_temp;
+	uint8_t max_core_temp_fraction;
+};
+
+struct gpu_elements{
+	uint8_t pkg_temp;
+	uint8_t pkg_temp_fraction;
+};
+
+struct reserved_elements{
+	uint8_t reserved_1;
+};
+
+struct packet{
+	uint8_t start_b1;
+	uint8_t start_b2;
+	rtc_counter_value_t date_time;
+	struct cpu_elements cpu;
+	struct gpu_elements gpu;
+	struct reserved_elements reserved;
+};
+
+
+void check_for_packet(void);
 /* End user code. Do not edit comment generated here */
 void R_MAIN_UserInit(void);
 
@@ -80,14 +109,11 @@ void main(void)
     for(delay=0; delay<200; delay++);
     R_RTC_Start();
     //R_UART0_Send(text, 6);
-    //R_UART0_Send(text, 6);
     while (1U)
     {
 
-    	for(delay=0; delay<200000; delay++);
-    	//cbuff_print_uart();
-
-
+    	for(delay=0; delay<200; delay++);
+    	check_for_packet();
 
     }
     /* End user code. Do not edit comment generated here */
@@ -107,7 +133,7 @@ void R_MAIN_UserInit(void)
     R_LCD_Create();
     /* Initialize the LCD panel */
     Init_Display_Panel();
-
+    /* Initialize ring buffer */
     init_buffer();
 
     /* End user code. Do not edit comment generated here */
@@ -115,6 +141,18 @@ void R_MAIN_UserInit(void)
 
 /* Start user code for adding. Do not edit comment generated here */
 
-
+void check_for_packet(void)
+{
+	uint8_t temp_byte;
+	while (cb->count >= 16)
+	{
+		temp_byte = cbuff_remove(cb);
+		if (temp_byte == 0xFE)
+		{
+			TXD0 = 0x11;
+			cbuff_reset(cb);
+		}
+	}
+}
 
 /* End user code. Do not edit comment generated here */

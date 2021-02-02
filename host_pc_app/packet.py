@@ -24,12 +24,12 @@ class GpuElements(ctypes.LittleEndianStructure):
 
 class ReservedElements(ctypes.LittleEndianStructure):
     """ Struct for reserved elements """
-    _fields_ = [('1', ctypes.c_uint8),
-                ('2', ctypes.c_uint8)]
+    _fields_ = [('r1', ctypes.c_uint8)]
 
 class PacketTX(ctypes.LittleEndianStructure):
     """ Struct for complete 16 byte packet"""
-    _fields_ = [('start', ctypes.c_uint8),
+    _fields_ = [('start_b1', ctypes.c_uint8),
+                ('start_b2', ctypes.c_uint8),
                 ('rtc', RtcElements),
                 ('cpu', CpuElements),
                 ('gpu', GpuElements),

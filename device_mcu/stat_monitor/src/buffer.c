@@ -5,7 +5,7 @@ cbuff_t * cbuff_new(int size)
   cbuff_t * cb = (cbuff_t*)malloc(sizeof(cbuff_t));
   memset(cb, 0, sizeof(cbuff_t));
   cb->size = size;
-    cb->buff = (int*)malloc(sizeof(int)*size);
+    cb->buff = (uint8_t*)malloc(sizeof(uint8_t)*size);
 
   return cb;
 }
@@ -56,4 +56,16 @@ void cbuff_delete(cbuff_t * cb)
 {
   free(cb->buff);
   free(cb);
+}
+
+int cbuff_data_count(cbuff_t * cb)
+{
+	return cb->end - cb->start;
+}
+
+void cbuff_reset(cbuff_t * cb)
+{
+	cb->count = 0;
+	cb->start = 0;
+	cb->end = 0;
 }

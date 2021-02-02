@@ -52,7 +52,8 @@ class DataCollector():
         return None
 
     def set_start_byte(self):
-        self.tx_packet.start = 0xFE
+        self.tx_packet.start_b1 = 0xFE
+        self.tx_packet.start_b2 = 0xFD
 
     @property
     def packet(self):
