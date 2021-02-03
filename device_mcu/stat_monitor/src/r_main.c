@@ -63,7 +63,7 @@ long delay=0;
 int a;
 uint8_t temp;
 uint8_t text[6] = "Hello\n";
-
+uint8_t result;
 
 struct cpu_elements{
 	uint8_t pkg_temp;
@@ -90,8 +90,9 @@ struct packet{
 	struct reserved_elements reserved;
 };
 
+struct packet pckt;
 
-void check_for_packet(void);
+int check_for_packet(struct packet *data);
 /* End user code. Do not edit comment generated here */
 void R_MAIN_UserInit(void);
 
@@ -113,7 +114,10 @@ void main(void)
     {
 
     	for(delay=0; delay<200; delay++);
-    	check_for_packet();
+    	result = check_for_packet(&pckt);
+    	if (result == 0){
+    		R_RTC_Set_CounterValue(pckt.date_time);
+    	}
 
     }
     /* End user code. Do not edit comment generated here */
@@ -141,7 +145,7 @@ void R_MAIN_UserInit(void)
 
 /* Start user code for adding. Do not edit comment generated here */
 
-void check_for_packet(void)
+int check_for_packet(struct packet *data)
 {
 	uint8_t temp_byte;
 	while (cb->count >= 16)
@@ -149,10 +153,24 @@ void check_for_packet(void)
 		temp_byte = cbuff_remove(cb);
 		if (temp_byte == 0xFE)
 		{
-			TXD0 = 0x11;
-			cbuff_reset(cb);
+			temp_byte = cbuff_remove(cb);
+			if (temp_byte == 0xFD)
+			{
+				data->date_time.sec = cbuff_remove(cb);
+				data->date_time.min = cbuff_remove(cb);
+				data->date_time.hour = cbuff_remove(cb);
+				data->date_time.day = cbuff_remove(cb);
+				data->date_time.week = cbuff_remove(cb);
+				data->date_time.month = cbuff_remove(cb);
+				data->date_time.year = cbuff_remove(cb);
+
+				cbuff_reset(cb);
+				return 0;
+			}
 		}
 	}
+	return 1;
+
 }
 
 /* End user code. Do not edit comment generated here */

@@ -96,6 +96,7 @@ static void r_rtc_callback_constperiod(void)
 
     /* Read the minutes value */
     g_lcd_buffer[4] = (int8_t)((st_rtc_data.min & 0x0F) + 0x30);
+
     g_lcd_buffer[3] = (int8_t)((st_rtc_data.min >> 4) + 0x30);
 
     /* Read the hours value */

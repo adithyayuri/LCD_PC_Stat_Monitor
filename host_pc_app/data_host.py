@@ -21,21 +21,23 @@ class DataCollector():
         now = datetime.datetime.now()
         year = now.year
         month = now.month
+        week = int(now.strftime('%w'))
         day = now.day
         hour = now.hour
         minute = now.minute
         second = now.second
-        self.fill_date_time(year, month, day, hour, minute, second)
+
+        self.fill_date_time(year, month, week, day, hour, minute, second)
         return None
 
-    def fill_date_time(self, year, month, day, hour, minute, second):
-        self.tx_packet.rtc.sec = second
-        self.tx_packet.rtc.min = minute
-        self.tx_packet.rtc.hour = hour
-        self.tx_packet.rtc.day = day
-        self.tx_packet.rtc.week = 0
-        self.tx_packet.rtc.month = month
-        self.tx_packet.rtc.year = year-2000
+    def fill_date_time(self, year, month, week, day, hour, minute, second):
+        self.tx_packet.rtc.sec = self._convert_number_to_bcd(second)
+        self.tx_packet.rtc.min = self._convert_number_to_bcd(minute)
+        self.tx_packet.rtc.hour = self._convert_number_to_bcd(hour)
+        self.tx_packet.rtc.day = self._convert_number_to_bcd(day)
+        self.tx_packet.rtc.week = week
+        self.tx_packet.rtc.month = self._convert_number_to_bcd(month)
+        self.tx_packet.rtc.year = self._convert_number_to_bcd(year-2000)
         return None
 
     def set_temps(self):
@@ -63,6 +65,21 @@ class DataCollector():
         self.set_temps()
         return bytes(self.tx_packet)
 
+    @staticmethod
+    def _convert_number_to_bcd(decimal):
+        """ Converts a decimal value to a bcd value
+
+        :param value: The decimal value to to pack into bcd
+        :returns: The number in bcd form
+        """
+        place, bcd = 0, 0
+        while decimal > 0:
+            nibble = int(decimal % 10)
+            bcd += nibble << place
+            decimal /= 10
+            place += 4
+        return bcd
+
 
 class Application():
     def __init__(self):
@@ -80,9 +97,9 @@ print(binascii.hexlify(packet))
 print('Write 16 bytes data')
 com.write(packet)
 
-print('Read 16 bytes data')
-data_ser = com.read()
-print(binascii.hexlify(data_ser))
+# print('Read 16 bytes data')
+# data_ser = com.read()
+# print(binascii.hexlify(data_ser))
 
 
 print('disconnect', com.disconnect())
