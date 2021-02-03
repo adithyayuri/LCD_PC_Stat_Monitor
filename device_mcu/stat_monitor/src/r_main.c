@@ -62,7 +62,7 @@ cbuff_t * cb;
 long delay=0;
 int a;
 uint8_t temp;
-uint8_t text[6] = "Hello\n";
+uint8_t text[6] = "11Hell";
 uint8_t result;
 
 struct cpu_elements{
@@ -77,17 +77,13 @@ struct gpu_elements{
 	uint8_t pkg_temp_fraction;
 };
 
-struct reserved_elements{
-	uint8_t reserved_1;
-};
-
 struct packet{
 	uint8_t start_b1;
 	uint8_t start_b2;
 	rtc_counter_value_t date_time;
 	struct cpu_elements cpu;
 	struct gpu_elements gpu;
-	struct reserved_elements reserved;
+	uint8_t checksum;
 };
 
 struct packet pckt;
@@ -110,6 +106,7 @@ void main(void)
     for(delay=0; delay<200; delay++);
     R_RTC_Start();
     //R_UART0_Send(text, 6);
+    Display_Panel_String(PANEL_LCD_LINE1, text);
     while (1U)
     {
 
@@ -147,6 +144,7 @@ void R_MAIN_UserInit(void)
 
 int check_for_packet(struct packet *data)
 {
+	uint16_t total;
 	uint8_t temp_byte;
 	while (cb->count >= 16)
 	{
@@ -156,16 +154,44 @@ int check_for_packet(struct packet *data)
 			temp_byte = cbuff_remove(cb);
 			if (temp_byte == 0xFD)
 			{
-				data->date_time.sec = cbuff_remove(cb);
-				data->date_time.min = cbuff_remove(cb);
-				data->date_time.hour = cbuff_remove(cb);
-				data->date_time.day = cbuff_remove(cb);
-				data->date_time.week = cbuff_remove(cb);
-				data->date_time.month = cbuff_remove(cb);
-				data->date_time.year = cbuff_remove(cb);
+				data->date_time.sec = cbuff_remove(cb); 				// 01
+				data->date_time.min = cbuff_remove(cb);					// 02
+				data->date_time.hour = cbuff_remove(cb);				// 03
+				data->date_time.day = cbuff_remove(cb);					// 04
+				data->date_time.week = cbuff_remove(cb);				// 05
+				data->date_time.month = cbuff_remove(cb);				// 06
+				data->date_time.year = cbuff_remove(cb);				// 07
+				data->cpu.pkg_temp = cbuff_remove(cb);					// 08
+				data->cpu.pkg_temp_fraction = cbuff_remove(cb);			// 09
+				data->cpu.max_core_temp = cbuff_remove(cb);				// 10
+				data->cpu.max_core_temp_fraction = cbuff_remove(cb);	// 11
+				data->gpu.pkg_temp = cbuff_remove(cb);					// 12
+				data->gpu.pkg_temp_fraction = cbuff_remove(cb);			// 13
 
-				cbuff_reset(cb);
-				return 0;
+				total = data->date_time.sec +
+						data->date_time.min +
+						data->date_time.hour +
+						data->date_time.day +
+						data->date_time.week +
+						data->date_time.month +
+						data->date_time.year +
+						data->cpu.pkg_temp +
+						data->cpu.pkg_temp_fraction +
+						data->cpu.max_core_temp +
+						data->cpu.max_core_temp_fraction +
+						data->gpu.pkg_temp +
+						data->gpu.pkg_temp_fraction;
+
+				if ((total % 127) == cbuff_remove(cb))
+				{
+					cbuff_reset(cb);
+					return 0;
+				}
+				else
+				{
+					cbuff_reset(cb);
+					break;
+				}
 			}
 		}
 	}

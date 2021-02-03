@@ -22,10 +22,6 @@ class GpuElements(ctypes.LittleEndianStructure):
     _fields_ = [('pkg_temp', ctypes.c_uint8),
                 ('pkg_temp_fraction', ctypes.c_uint8),]
 
-class ReservedElements(ctypes.LittleEndianStructure):
-    """ Struct for reserved elements """
-    _fields_ = [('r1', ctypes.c_uint8)]
-
 class PacketTX(ctypes.LittleEndianStructure):
     """ Struct for complete 16 byte packet"""
     _fields_ = [('start_b1', ctypes.c_uint8),
@@ -33,7 +29,7 @@ class PacketTX(ctypes.LittleEndianStructure):
                 ('rtc', RtcElements),
                 ('cpu', CpuElements),
                 ('gpu', GpuElements),
-                ('reserved', ReservedElements)]
+                ('checksum', ctypes.c_uint8)]
 
-# packet = PacketTX()
-# print('struct_size', ctypes.sizeof(packet))
+#packet = PacketTX()
+#print('struct_size', ctypes.sizeof(packet))
