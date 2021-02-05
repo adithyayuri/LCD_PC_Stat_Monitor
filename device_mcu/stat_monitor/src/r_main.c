@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements main function.
-* Creation Date: 02-02-2021
+* Creation Date: 05-02-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -32,6 +32,7 @@ Includes
 #include "r_cg_macrodriver.h"
 #include "r_cg_cgc.h"
 #include "r_cg_port.h"
+#include "r_cg_intc.h"
 #include "r_cg_serial.h"
 #include "r_cg_rtc.h"
 /* Start user code for include. Do not edit comment generated here */
@@ -113,12 +114,24 @@ void main(void)
 {
     R_MAIN_UserInit();
     /* Start user code. Do not edit comment generated here */
+
+    // Start serial comms
     R_UART0_Start();
     Delay(200);
+
+    // Start RTC peripheral
     R_RTC_Start();
+    Delay(200);
+
+    // Enable interrupt for SW1
+    R_INTC0_Start();
+    // Enable interrupt for SW2
+    R_INTC3_Start();
+    // Enable interrupt for SW3
+    R_INTC4_Start();
 
     // Set default MODE
-    disp_mode = 1;
+    disp_mode = 0;
 
     while (1U)
     {
@@ -239,7 +252,6 @@ void application(void)
 	uint8_t temp_mode;
 	temp_mode = disp_mode;
 
-
 	result = check_for_packet(&pckt);
 	if (result == 0){
 		// Get time delta value
@@ -249,49 +261,36 @@ void application(void)
 		if (time_delta > 5){
 			 R_RTC_Set_CounterValue(pckt.date_time);
 		}
-
-		switch (temp_mode){
-			case 1:
-				// CPU Temp mode
-				if (time_delta > 5){
-					disp_mode = 0;
-					break;
-				}
-				line3_buffer[0] = (int8_t)((pckt.cpu.pkg_temp >> 4) + 0x30);
-				line3_buffer[1] = (int8_t)((pckt.cpu.pkg_temp & 0x0F) + 0x30);
-				line3_buffer[2] = '.';
-				line3_buffer[3] = (int8_t)((pckt.cpu.pkg_temp_fraction) + 0x30);
-		        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
-		        Symbol_Map(LCD_DEGREESC_ON);
-		        Display_Panel_String(PANEL_LCD_LINE1, "CPU");
-				break;
-			case 2:
-				// GPU Temp mode
-				if (time_delta > 5){
-					disp_mode = 0;
-					break;
-				}
-				line3_buffer[0] = (int8_t)((pckt.gpu.pkg_temp >> 4) + 0x30);
-				line3_buffer[1] = (int8_t)((pckt.gpu.pkg_temp & 0x0F) + 0x30);
-				line3_buffer[2] = '.';
-				line3_buffer[3] = (int8_t)((pckt.gpu.pkg_temp_fraction) + 0x30);
-		        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
-		        Symbol_Map(LCD_DEGREESC_ON);
-		        Display_Panel_String(PANEL_LCD_LINE1, "GPU");
-				break;
+		TXD0 = temp_mode;
+		if (temp_mode == 1){
+			// CPU Temp mode
+			line3_buffer[0] = (int8_t)((pckt.cpu.pkg_temp >> 4) + 0x30);
+			line3_buffer[1] = (int8_t)((pckt.cpu.pkg_temp & 0x0F) + 0x30);
+			line3_buffer[2] = '.';
+			line3_buffer[3] = (int8_t)((pckt.cpu.pkg_temp_fraction) + 0x30);
+	        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
+	        Symbol_Map(LCD_DEGREESC_ON);
+	        Display_Panel_String(PANEL_LCD_LINE1, "CPU");
 		}
-
-	}
-	else{
-		// Get time delta value
-		time_delta = time_difference(&pckt);
-
-		// Update time if outdated
-		if (time_delta > 5){
-			disp_mode = 0;
+		if (temp_mode == 2){
+			// CPU Temp mode
+			line3_buffer[0] = (int8_t)((pckt.gpu.pkg_temp >> 4) + 0x30);
+			line3_buffer[1] = (int8_t)((pckt.gpu.pkg_temp & 0x0F) + 0x30);
+			line3_buffer[2] = '.';
+			line3_buffer[3] = (int8_t)((pckt.gpu.pkg_temp_fraction) + 0x30);
+	        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
+	        Symbol_Map(LCD_DEGREESC_ON);
+	        Display_Panel_String(PANEL_LCD_LINE1, "GPU");
 		}
 	}
 
+	// Get time delta value
+	time_delta = time_difference(&pckt);
+
+	// Update time if outdated
+	if (time_delta > 10){
+		disp_mode = 0;
+	}
 }
 
 /* End user code. Do not edit comment generated here */

@@ -61,4 +61,4 @@ class SerialComms():
 
     def read(self):
         if self.virtual_com.is_open:
-            return self.virtual_com.read(16)
+            return self.virtual_com.read(1)

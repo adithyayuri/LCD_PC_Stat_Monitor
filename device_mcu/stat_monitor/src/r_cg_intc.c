@@ -18,11 +18,11 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name    : r_cg_rtc.c
+* File Name    : r_cg_intc.c
 * Version      : CodeGenerator for RL78/L12 V2.04.03.01 [14 Aug 2020]
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
-* Description  : This file implements device driver for RTC module.
+* Description  : This file implements device driver for INTC module.
 * Creation Date: 05-02-2021
 ***********************************************************************************************************************/
 
@@ -30,7 +30,7 @@
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "r_cg_rtc.h"
+#include "r_cg_intc.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -48,191 +48,117 @@ Global variables and functions
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: R_RTC_Create
-* Description  : This function initializes the real-time clock module.
+* Function Name: R_INTC_Create
+* Description  : This function initializes INTP module.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_RTC_Create(void)
+void R_INTC_Create(void)
 {
-    RTCEN = 1U;    /* supply RTC clock */
-    RTCE = 0U;     /* disable RTC clock operation */
-    RTCMK = 1U;    /* disable INTRTC interrupt */
-    RTCIF = 0U;    /* clear INTRTC interrupt flag */
-    /* Set INTRTC low priority */
-    RTCPR1 = 1U;
-    RTCPR0 = 1U;
-    RTCC0 = _00_RTC_RTC1HZ_DISABLE | _00_RTC_12HOUR_SYSTEM | _02_RTC_INTRTC_CLOCK_1;
+    PMK0 = 1U;    /* disable INTP0 operation */
+    PIF0 = 0U;    /* clear INTP0 interrupt flag */
+    PMK1 = 1U;    /* disable INTP1 operation */
+    PIF1 = 0U;    /* clear INTP1 interrupt flag */
+    PMK2 = 1U;    /* disable INTP2 operation */
+    PIF2 = 0U;    /* clear INTP2 interrupt flag */
+    PMK3 = 1U;    /* disable INTP3 operation */
+    PIF3 = 0U;    /* clear INTP3 interrupt flag */
+    PMK4 = 1U;    /* disable INTP4 operation */
+    PIF4 = 0U;    /* clear INTP4 interrupt flag */
+    PMK5 = 1U;    /* disable INTP5 operation */
+    PIF5 = 0U;    /* clear INTP5 interrupt flag */
+    PMK6 = 1U;    /* disable INTP6 operation */
+    PIF6 = 0U;    /* clear INTP6 interrupt flag */
+    PMK7 = 1U;    /* disable INTP7 operation */
+    PIF7 = 0U;    /* clear INTP7 interrupt flag */
+    /* Set INTP0 low priority */
+    PPR10 = 1U;
+    PPR00 = 1U;
+    /* Set INTP3 low priority */
+    PPR13 = 1U;
+    PPR03 = 1U;
+    /* Set INTP4 low priority */
+    PPR14 = 1U;
+    PPR04 = 1U;
+    EGN0 = _01_INTP0_EDGE_FALLING_SEL | _08_INTP3_EDGE_FALLING_SEL | _10_INTP4_EDGE_FALLING_SEL;
+    /* Set INTP3 pin */
+    PFSEG2 &= 0xFBU;
+    PM3 |= 0x02U;
+    /* Set INTP4 pin */
+    PFSEG2 &= 0xFDU;
+    PM3 |= 0x04U;
 }
 
 /***********************************************************************************************************************
-* Function Name: R_RTC_Start
-* Description  : This function enables the real-time clock.
+* Function Name: R_INTC0_Start
+* Description  : This function clears INTP0 interrupt flag and enables interrupt.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_RTC_Start(void)
+void R_INTC0_Start(void)
 {
-    RTCIF = 0U;    /* clear INTRTC interrupt flag */
-    RTCMK = 0U;    /* enable INTRTC interrupt */
-    RTCE = 1U;     /* enable RTC clock operation */
+    PIF0 = 0U;    /* clear INTP0 interrupt flag */
+    PMK0 = 0U;    /* enable INTP0 interrupt */
 }
 
 /***********************************************************************************************************************
-* Function Name: R_RTC_Stop
-* Description  : This function disables the real-time clock.
+* Function Name: R_INTC0_Stop
+* Description  : This function disables INTP0 interrupt and clears interrupt flag.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_RTC_Stop(void)
+void R_INTC0_Stop(void)
 {
-    RTCE = 0U;    /* disable RTC clock operation */
-    RTCMK = 1U;   /* disable INTRTC interrupt */
-    RTCIF = 0U;   /* clear INTRTC interrupt flag */
+    PMK0 = 1U;    /* disable INTP0 interrupt */
+    PIF0 = 0U;    /* clear INTP0 interrupt flag */
 }
 
 /***********************************************************************************************************************
-* Function Name: R_RTC_Get_CounterValue
-* Description  : This function reads the results of real-time clock and store them in the variables.
-* Arguments    : counter_read_val -
-*                    the current real-time clock value(BCD code)
-* Return Value : status -
-*                    MD_OK, MD_BUSY1 or MD_BUSY2
-***********************************************************************************************************************/
-MD_STATUS R_RTC_Get_CounterValue(rtc_counter_value_t * const counter_read_val)
-{
-    MD_STATUS status = MD_OK;
-    volatile uint16_t  w_count;
-    
-    RTCC1 |= _01_RTC_COUNTER_PAUSE;
-
-    /* Change the waiting time according to the system */
-    for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
-    {
-        NOP();
-    }
-
-    if (0U == RWST)
-    {
-        status = MD_BUSY1;
-    }
-    else
-    {
-        counter_read_val->sec = SEC;
-        counter_read_val->min = MIN;
-        counter_read_val->hour = HOUR;
-        counter_read_val->week = WEEK;
-        counter_read_val->day = DAY;
-        counter_read_val->month = MONTH;
-        counter_read_val->year = YEAR;
-
-        RTCC1 &= (uint8_t)~_01_RTC_COUNTER_PAUSE;
-
-        /* Change the waiting time according to the system */
-        for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
-        {
-            NOP();
-        }
-
-        if (1U == RWST)
-        {
-            status = MD_BUSY2;
-        }
-    }
-
-    return (status);
-}
-
-/***********************************************************************************************************************
-* Function Name: R_RTC_Set_CounterValue
-* Description  : This function changes the real-time clock value.
-* Arguments    : counter_write_val -
-*                    the expected real-time clock value(BCD code)
-* Return Value : status -
-*                    MD_OK, MD_BUSY1 or MD_BUSY2
-***********************************************************************************************************************/
-MD_STATUS R_RTC_Set_CounterValue(rtc_counter_value_t counter_write_val)
-{
-    MD_STATUS status = MD_OK;
-    volatile uint16_t  w_count;
-    
-    RTCC1 |= _01_RTC_COUNTER_PAUSE;
-
-    /* Change the waiting time according to the system */
-    for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
-    {
-        NOP();
-    }
-
-    if (0U == RWST)
-    {
-        status = MD_BUSY1;
-    }
-    else
-    {
-        SEC = counter_write_val.sec;
-        MIN = counter_write_val.min;
-        HOUR = counter_write_val.hour;
-        WEEK = counter_write_val.week;
-        DAY = counter_write_val.day;
-        MONTH = counter_write_val.month;
-        YEAR = counter_write_val.year;
-        RTCC1 &= (uint8_t)~_01_RTC_COUNTER_PAUSE;
-
-        /* Change the waiting time according to the system */
-        for (w_count = 0U; w_count < RTC_WAITTIME; w_count++)
-        {
-            NOP();
-        }
-
-        if (1U == RWST)
-        {
-            status = MD_BUSY2;
-        }
-    }
-
-    return (status);
-}
-
-/***********************************************************************************************************************
-* Function Name: R_RTC_Set_ConstPeriodInterruptOn
-* Description  : This function enables constant-period interrupt.
-* Arguments    : period -
-*                    the constant period of INTRTC
-* Return Value : status -
-*                    MD_OK or MD_ARGERROR
-***********************************************************************************************************************/
-MD_STATUS R_RTC_Set_ConstPeriodInterruptOn(rtc_int_period_t period)
-{
-    MD_STATUS status = MD_OK;
-
-    if ((period < HALFSEC) || (period > ONEMONTH))
-    {
-        status = MD_ARGERROR;
-    }
-    else
-    {
-        RTCMK = 1U;    /* disable INTRTC */
-        RTCC0 = (RTCC0 & _F8_RTC_INTRTC_CLEAR) | period;
-        RTCC1 &= (uint8_t)~_08_RTC_INTC_GENERATE_FLAG;
-        RTCIF = 0U;    /* clear INTRTC interrupt flag */
-        RTCMK = 0U;    /* enable INTRTC interrupt */
-    }
-
-    return (status);
-}
-
-/***********************************************************************************************************************
-* Function Name: R_RTC_Set_ConstPeriodInterruptOff
-* Description  : This function disables constant-period interrupt.
+* Function Name: R_INTC3_Start
+* Description  : This function clears INTP3 interrupt flag and enables interrupt.
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
-void R_RTC_Set_ConstPeriodInterruptOff(void)
+void R_INTC3_Start(void)
 {
-    RTCC0 &= _F8_RTC_INTRTC_CLEAR;
-    RTCC1 &= (uint8_t)~_08_RTC_INTC_GENERATE_FLAG;
-    RTCIF = 0U;        /* clear INTRTC interrupt flag */
+    PIF3 = 0U;    /* clear INTP3 interrupt flag */
+    PMK3 = 0U;    /* enable INTP3 interrupt */
+}
+
+/***********************************************************************************************************************
+* Function Name: R_INTC3_Stop
+* Description  : This function disables INTP3 interrupt and clears interrupt flag.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_INTC3_Stop(void)
+{
+    PMK3 = 1U;    /* disable INTP3 interrupt */
+    PIF3 = 0U;    /* clear INTP3 interrupt flag */
+}
+
+/***********************************************************************************************************************
+* Function Name: R_INTC4_Start
+* Description  : This function clears INTP4 interrupt flag and enables interrupt.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_INTC4_Start(void)
+{
+    PIF4 = 0U;    /* clear INTP4 interrupt flag */
+    PMK4 = 0U;    /* enable INTP4 interrupt */
+}
+
+/***********************************************************************************************************************
+* Function Name: R_INTC4_Stop
+* Description  : This function disables INTP4 interrupt and clears interrupt flag.
+* Arguments    : None
+* Return Value : None
+***********************************************************************************************************************/
+void R_INTC4_Stop(void)
+{
+    PMK4 = 1U;    /* disable INTP4 interrupt */
+    PIF4 = 0U;    /* clear INTP4 interrupt flag */
 }
 
 /* Start user code for adding. Do not edit comment generated here */

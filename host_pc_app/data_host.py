@@ -124,9 +124,9 @@ print(binascii.hexlify(packet))
 print('Write 16 bytes data')
 com.write(packet)
 
-# print('Read 16 bytes data')
-# data_ser = com.read()
-# print(binascii.hexlify(data_ser))
+#print('Read 16 bytes data')
+#data_ser = com.read()
+#print(binascii.hexlify(data_ser))
 
 
 print('disconnect', com.disconnect())

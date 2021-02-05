@@ -8,6 +8,8 @@ C_SRCS += \
 ../src/lcd_panel.c \
 ../src/r_cg_cgc.c \
 ../src/r_cg_cgc_user.c \
+../src/r_cg_intc.c \
+../src/r_cg_intc_user.c \
 ../src/r_cg_port.c \
 ../src/r_cg_port_user.c \
 ../src/r_cg_rtc.c \
@@ -23,6 +25,8 @@ src/buffer.obj \
 src/lcd_panel.obj \
 src/r_cg_cgc.obj \
 src/r_cg_cgc_user.obj \
+src/r_cg_intc.obj \
+src/r_cg_intc_user.obj \
 src/r_cg_port.obj \
 src/r_cg_port_user.obj \
 src/r_cg_rtc.obj \
@@ -38,6 +42,8 @@ src/buffer.d \
 src/lcd_panel.d \
 src/r_cg_cgc.d \
 src/r_cg_cgc_user.d \
+src/r_cg_intc.d \
+src/r_cg_intc_user.d \
 src/r_cg_port.d \
 src/r_cg_port_user.d \
 src/r_cg_rtc.d \

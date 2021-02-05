@@ -23,7 +23,7 @@
 * Device(s)    : R5F10RLC
 * Tool-Chain   : CCRL
 * Description  : This file implements device driver for PORT module.
-* Creation Date: 02-02-2021
+* Creation Date: 05-02-2021
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -55,15 +55,12 @@ Global variables and functions
 ***********************************************************************************************************************/
 void R_PORT_Create(void)
 {
-    PFSEG2 = _01_PFSEG16_SEG | _00_PFSEG17_PORT | _00_PFSEG18_PORT | _08_PFSEG19_SEG | _10_PFSEG20_SEG |
-             _20_PFSEG21_SEG | _40_PFSEG22_SEG | _80_PFSEG23_SEG;
     ISCLCD = _02_ISCVL3_INPUT_EFFECTIVE;
     P2 = _02_Pn1_OUTPUT_1;
     P12 = _20_Pn5_OUTPUT_1;
     P13 = _01_Pn0_OUTPUT_1;
     ADPC = _02_ADPC_DI_ON;
     PM2 = _01_PMn0_NOT_USE | _00_PMn1_MODE_OUTPUT | _FC_PM2_DEFAULT;
-    PM3 = _01_PMn0_NOT_USE | _02_PMn1_MODE_INPUT | _04_PMn2_MODE_INPUT | _F8_PM3_DEFAULT;
     PM12 = _01_PMn0_NOT_USE | _00_PMn5_MODE_OUTPUT | _40_PMn6_NOT_USE | _80_PMn7_NOT_USE | _1E_PM12_DEFAULT;
 }
 

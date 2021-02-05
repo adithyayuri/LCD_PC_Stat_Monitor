@@ -124,8 +124,8 @@
         </Port2>
         <Port3 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" Pullup="true">
           <P30 Name="P30/TI01/TO01/SEG19" AltFunc="" Point="I/O" />
-          <P31 Name="P31/INTP3/RTC1HZ/SEG18" AltFunc="P31" Point="I/O" />
-          <P32 Name="P32/TI03/TO03/INTP4/SEG17" AltFunc="P32" Point="I/O" />
+          <P31 Name="P31/INTP3/RTC1HZ/SEG18" AltFunc="INTP3" Point="I/O" />
+          <P32 Name="P32/TI03/TO03/INTP4/SEG17" AltFunc="INTP4" Point="I/O" />
         </Port3>
         <Port4 Chip="RL78L12_64pin" Pullup="true">
           <P40 Name="P40/TOOL0" AltFunc="TOOL0" Point="I/O" />
@@ -163,7 +163,7 @@
         </Port12>
         <Port13 Chip="RL78L12_64pin">
           <P130 Name="P130" AltFunc="P130" Point="O" />
-          <P137 Name="P137/INTP0" AltFunc="P137" Point="I" />
+          <P137 Name="P137/INTP0" AltFunc="INTP0" Point="I" />
         </Port13>
         <Port14 Chip="RL78L12_64pin" Pullup="true">
           <P140 Name="P140/TO00/PCLBUZ0/SEG27" AltFunc="" Point="I/O" />
@@ -344,11 +344,11 @@
     <INT>
       <INTC>
         <INTP>
-          <INTP0 InUse="0" ISR="r_intc0_interrupt" />
+          <INTP0 InUse="1" ISR="r_intc0_interrupt" />
           <INTP1 InUse="0" ISR="r_intc1_interrupt" />
           <INTP2 InUse="0" ISR="r_intc2_interrupt" />
-          <INTP3 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" InUse="0" ISR="r_intc3_interrupt" />
-          <INTP4 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" InUse="0" ISR="r_intc4_interrupt" />
+          <INTP3 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" InUse="1" ISR="r_intc3_interrupt" />
+          <INTP4 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" InUse="1" ISR="r_intc4_interrupt" />
           <INTP5 Chip="RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" InUse="0" ISR="r_intc5_interrupt" />
           <INTP6 Chip="RL78L12_64pin" InUse="0" ISR="r_intc6_interrupt" />
           <INTP7 Chip="RL78L12_64pin" InUse="0" ISR="r_intc7_interrupt" />
@@ -490,13 +490,13 @@
         <r_cg_port.h UserName="r_cg_port.h" LibName=".h" InUse="1" />
       </PORT>
       <INTC>
-        <r_cg_intc.c UserName="" LibName=".c" InUse="0">
+        <r_cg_intc.c UserName="r_cg_intc.c" LibName=".c" InUse="1">
           <Type R_INTC_Create="void R_INTC_Create(void)" R_INTCn_Start="void R_INTCn_Start(void)" R_INTCn_Stop="void R_INTCn_Stop(void)" R_KEY_Create="void R_KEY_Create(void)" R_KEY_Start="void R_KEY_Start(void)" R_KEY_Stop="void R_KEY_Stop(void)" />
           <INTP>
-            <R_INTC_Create UserName="R_INTC_Create" LibName="R_INTC_Create" InUse="0" Init="2" InitMode="" />
+            <R_INTC_Create UserName="R_INTC_Create" LibName="R_INTC_Create" InUse="1" Init="2" InitMode="" />
             <INTP0>
-              <R_INTC0_Start UserName="R_INTC0_Start" LibName="R_INTCn_Start" InUse="0" />
-              <R_INTC0_Stop UserName="R_INTC0_Stop" LibName="R_INTCn_Stop" InUse="0" />
+              <R_INTC0_Start UserName="R_INTC0_Start" LibName="R_INTCn_Start" InUse="1" />
+              <R_INTC0_Stop UserName="R_INTC0_Stop" LibName="R_INTCn_Stop" InUse="1" />
             </INTP0>
             <INTP1>
               <R_INTC1_Start UserName="R_INTC1_Start" LibName="R_INTCn_Start" InUse="0" />
@@ -507,12 +507,12 @@
               <R_INTC2_Stop UserName="R_INTC2_Stop" LibName="R_INTCn_Stop" InUse="0" />
             </INTP2>
             <INTP3 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin">
-              <R_INTC3_Start UserName="R_INTC3_Start" LibName="R_INTCn_Start" InUse="0" />
-              <R_INTC3_Stop UserName="R_INTC3_Stop" LibName="R_INTCn_Stop" InUse="0" />
+              <R_INTC3_Start UserName="R_INTC3_Start" LibName="R_INTCn_Start" InUse="1" />
+              <R_INTC3_Stop UserName="R_INTC3_Stop" LibName="R_INTCn_Stop" InUse="1" />
             </INTP3>
             <INTP4 Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin">
-              <R_INTC4_Start UserName="R_INTC4_Start" LibName="R_INTCn_Start" InUse="0" />
-              <R_INTC4_Stop UserName="R_INTC4_Stop" LibName="R_INTCn_Stop" InUse="0" />
+              <R_INTC4_Start UserName="R_INTC4_Start" LibName="R_INTCn_Start" InUse="1" />
+              <R_INTC4_Stop UserName="R_INTC4_Stop" LibName="R_INTCn_Stop" InUse="1" />
             </INTP4>
             <INTP5 Chip="RL78L12_48pin,RL78L12_52pin,RL78L12_64pin">
               <R_INTC5_Start UserName="R_INTC5_Start" LibName="R_INTCn_Start" InUse="0" />
@@ -528,30 +528,30 @@
             </INTP7>
           </INTP>
           <KEY>
-            <R_KEY_Create UserName="R_KEY_Create" LibName="R_KEY_Create" InUse="" Init="2" InitMode="" />
-            <R_KEY_Start UserName="R_KEY_Start" LibName="R_KEY_Start" InUse="" />
-            <R_KEY_Stop UserName="R_KEY_Stop" LibName="R_KEY_Stop" InUse="" />
+            <R_KEY_Create UserName="R_KEY_Create" LibName="R_KEY_Create" InUse="0" Init="2" InitMode="" />
+            <R_KEY_Start UserName="R_KEY_Start" LibName="R_KEY_Start" InUse="0" />
+            <R_KEY_Stop UserName="R_KEY_Stop" LibName="R_KEY_Stop" InUse="0" />
           </KEY>
         </r_cg_intc.c>
-        <r_cg_intc_user.c UserName="" LibName="_user.c" InUse="0">
+        <r_cg_intc_user.c UserName="r_cg_intc_user.c" LibName="_user.c" InUse="1">
           <Type R_INTC_Create_UserInit="void R_INTC_Create_UserInit(void)" r_intcn_interrupt="__interrupt static void r_intcn_interrupt(void)" R_KEY_Create_UserInit="void R_KEY_Create_UserInit(void)" r_key_interrupt="__interrupt static void r_key_interrupt(void)" />
           <INTP>
             <R_INTC_Create_UserInit UserName="R_INTC_Create_UserInit" LibName="R_INTC_Create_UserInit" InUse="0" />
-            <r_intc0_interrupt UserName="r_intc0_interrupt" LibName="r_intc0_interrupt" INTHandle="" InUse="0" />
+            <r_intc0_interrupt UserName="r_intc0_interrupt" LibName="r_intc0_interrupt" INTHandle="" InUse="1" />
             <r_intc1_interrupt UserName="r_intc1_interrupt" LibName="r_intc1_interrupt" INTHandle="" InUse="0" />
             <r_intc2_interrupt UserName="r_intc2_interrupt" LibName="r_intc2_interrupt" INTHandle="" InUse="0" />
-            <r_intc3_interrupt Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="r_intc3_interrupt" LibName="r_intc3_interrupt" INTHandle="" InUse="0" />
-            <r_intc4_interrupt Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="r_intc4_interrupt" LibName="r_intc4_interrupt" INTHandle="" InUse="0" />
+            <r_intc3_interrupt Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="r_intc3_interrupt" LibName="r_intc3_interrupt" INTHandle="" InUse="1" />
+            <r_intc4_interrupt Chip="RL78L12_44pin,RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="r_intc4_interrupt" LibName="r_intc4_interrupt" INTHandle="" InUse="1" />
             <r_intc5_interrupt Chip="RL78L12_48pin,RL78L12_52pin,RL78L12_64pin" UserName="r_intc5_interrupt" LibName="r_intc5_interrupt" INTHandle="" InUse="0" />
             <r_intc6_interrupt Chip="RL78L12_64pin" UserName="r_intc6_interrupt" LibName="r_intc6_interrupt" INTHandle="" InUse="0" />
             <r_intc7_interrupt Chip="RL78L12_64pin" UserName="r_intc7_interrupt" LibName="r_intc7_interrupt" INTHandle="" InUse="0" />
           </INTP>
           <KEY>
-            <R_KEY_Create_UserInit UserName="R_KEY_Create_UserInit" LibName="R_KEY_Create_UserInit" InUse="" />
-            <r_key_interrupt UserName="r_key_interrupt" LibName="r_key_interrupt" INTHandle="" InUse="" />
+            <R_KEY_Create_UserInit UserName="R_KEY_Create_UserInit" LibName="R_KEY_Create_UserInit" InUse="0" />
+            <r_key_interrupt UserName="r_key_interrupt" LibName="r_key_interrupt" INTHandle="" InUse="0" />
           </KEY>
         </r_cg_intc_user.c>
-        <r_cg_intc.h UserName="" LibName=".h" InUse="0" />
+        <r_cg_intc.h UserName="r_cg_intc.h" LibName=".h" InUse="1" />
       </INTC>
       <Serial>
         <r_cg_serial.c UserName="r_cg_serial.c" LibName=".c" InUse="1">
@@ -903,22 +903,22 @@
         <wdt_option Name="wdt_option" Value="EF" />
         <cg_security8 Name="cg_security8" Value="00" />
         <cg_security2 Name="cg_security2" Value="00" />
-        <lvi_option Name="lvi_option" Value="FF" />
         <cg_security1 Name="cg_security1" Value="00" />
         <cg_security9 Name="cg_security9" Value="00" />
+        <rrm Name="rrm" Value="07E00" />
         <cg_security6 Name="cg_security6" Value="00" />
         <cg_crc_area Name="cg_crc_area" Value="00" />
-        <cg_onchip Name="cg_onchip" Value="" />
         <cg_iawctl_value Name="cg_iawctl_value" Value="80" />
         <cg_security0 Name="cg_security0" Value="00" />
         <ocdstart Name="ocdstart" Value="07E00" />
-        <cg_security3 Name="cg_security3" Value="00" />
         <cg_security4 Name="cg_security4" Value="00" />
+        <cg_security3 Name="cg_security3" Value="00" />
+        <cg_onchip Name="cg_onchip" Value="" />
         <pior_value Name="pior_value" Value="00" />
-        <cg_ocd_ram_size Name="cg_ocd_ram_size" Value="512" />
-        <rrm Name="rrm" Value="07E00" />
-        <cg_security7 Name="cg_security7" Value="00" />
         <cg_option Name="cg_option" Value="84" />
+        <cg_ocd_ram_size Name="cg_ocd_ram_size" Value="512" />
+        <cg_security7 Name="cg_security7" Value="00" />
+        <lvi_option Name="lvi_option" Value="FF" />
       </GlobleUserTag>
     </TAG>
   </DIR>
@@ -929,16 +929,16 @@
     <PORT Prepared="true" HelpID="port" SetFlag="True" NeedRefresh="False">
       <PORT MacroName="PORT" SetFlag="True" />
     </PORT>
-    <INTC SetFlag="False" HelpID="int" NeedRefresh="False">
-      <INTP Accelerate="No" MacroName="INTP" SetFlag="False" TabEnable="True" />
-      <KEY Accelerate="No" MacroName="KEY" TabEnable="True" />
+    <INTC SetFlag="True" HelpID="int" NeedRefresh="False">
+      <INTP Accelerate="No" MacroName="INTP" SetFlag="True" TabEnable="True" />
+      <KEY Accelerate="No" MacroName="KEY" TabEnable="True" SetFlag="False" />
     </INTC>
     <Serial SetFlag="True" HelpID="serial" NeedRefresh="False">
       <SAU0 Accelerate="No" MacroName="SAU" Channel="0" SetFlag="True" TabEnable="True">
         <Channel0 UART="0" CSI="00" Channel="0" />
         <Channel1 UART="0" CSI="01" Channel="1" />
       </SAU0>
-      <IICA0 Accelerate="No" MacroName="IICA" Channel="0" TabEnable="True" SetFlag="False" />
+      <IICA0 Accelerate="No" MacroName="IICA" Channel="0" SetFlag="False" TabEnable="True" />
     </Serial>
     <ADC SetFlag="" HelpID="adc" NeedRefresh="False">
       <ADC SetFlag="" MacroName="ADC" />
@@ -1047,7 +1047,7 @@
     <INTP>
       <INTP0>
         <setting name="Valid_edge" value="falling" />
-        <setting name="INT_USED" value="false" />
+        <setting name="INT_USED" value="true" />
         <setting name="INT_EDGE" value="0" />
         <setting name="INTTERUPT_PRIOIRY" value="3" />
       </INTP0>
@@ -1065,13 +1065,13 @@
       </INTP2>
       <INTP3>
         <setting name="Valid_edge" value="falling" />
-        <setting name="INT_USED" value="false" />
+        <setting name="INT_USED" value="true" />
         <setting name="INT_EDGE" value="0" />
         <setting name="INTTERUPT_PRIOIRY" value="3" />
       </INTP3>
       <INTP4>
         <setting name="Valid_edge" value="falling" />
-        <setting name="INT_USED" value="false" />
+        <setting name="INT_USED" value="true" />
         <setting name="INT_EDGE" value="0" />
         <setting name="INTTERUPT_PRIOIRY" value="3" />
       </INTP4>
@@ -1329,8 +1329,8 @@
           <setting name="OUTPUT_1" value="false" />
         </P30>
         <P31>
-          <setting name="MODULE_UNUSED" value="false" />
-          <setting name="INPUT_MODE" value="true" />
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
           <setting name="OUTPUT_MODE" value="false" />
           <setting name="PULLUP_ON" value="false" />
           <setting name="TTL_ON" value="false" />
@@ -1338,8 +1338,8 @@
           <setting name="OUTPUT_1" value="false" />
         </P31>
         <P32>
-          <setting name="MODULE_UNUSED" value="false" />
-          <setting name="INPUT_MODE" value="true" />
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
           <setting name="OUTPUT_MODE" value="false" />
           <setting name="PULLUP_ON" value="false" />
           <setting name="TTL_ON" value="false" />
@@ -1584,8 +1584,8 @@
           <setting name="OUTPUT_1" value="true" />
         </P130>
         <P137>
-          <setting name="MODULE_UNUSED" value="false" />
-          <setting name="INPUT_MODE" value="true" />
+          <setting name="MODULE_UNUSED" value="true" />
+          <setting name="INPUT_MODE" value="false" />
           <setting name="OUTPUT_MODE" value="false" />
           <setting name="PULLUP_ON" value="false" />
           <setting name="TTL_ON" value="false" />
