@@ -56,8 +56,8 @@ extern volatile uint16_t  g_uart0_rx_length;           /* uart0 receive data len
 /* Start user code for global. Do not edit comment generated here */
 
 
-
 extern cbuff_t * cb;
+
 uint8_t BUFFER_SIZE = 32;
 /* End user code. Do not edit comment generated here */
 

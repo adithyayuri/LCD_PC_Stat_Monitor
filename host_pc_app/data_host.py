@@ -47,19 +47,19 @@ class DataCollector():
         return None
 
     def set_temps(self):
-        cpu_package = 33
+        cpu_package = 12
         cpu_max_core = 34
         gpu_package = 35
         self.fill_temps(cpu_package, cpu_max_core, gpu_package)
         return None
 
     def fill_temps(self, cpu_package, cpu_max_core, gpu_package):
-        self.tx_packet.cpu.pkg_temp = cpu_package
-        self.tx_packet.cpu.pkg_temp_fraction = 1
+        self.tx_packet.cpu.pkg_temp = convert_to_bcd(cpu_package)
+        self.tx_packet.cpu.pkg_temp_fraction = 3
         self.tx_packet.cpu.max_core_temp = cpu_max_core
-        self.tx_packet.cpu.max_core_temp_fraction = 1
-        self.tx_packet.gpu.pkg_temp = gpu_package
-        self.tx_packet.gpu.pkg_temp_fraction = 1
+        self.tx_packet.cpu.max_core_temp_fraction = 5
+        self.tx_packet.gpu.pkg_temp = convert_to_bcd(gpu_package)
+        self.tx_packet.gpu.pkg_temp_fraction = 7
         return None
 
     def set_start_byte(self):
@@ -111,7 +111,8 @@ class Application():
     def __init__(self):
         pass
 
-
+def convert_to_bcd(num):
+    return ((int(num/10))<<4) + (num%10)
 
 data = DataCollector()
 com = SerialComms(board_VID, board_PID)
@@ -123,9 +124,9 @@ print(binascii.hexlify(packet))
 print('Write 16 bytes data')
 com.write(packet)
 
-print('Read 16 bytes data')
-data_ser = com.read()
-print(binascii.hexlify(data_ser))
+# print('Read 16 bytes data')
+# data_ser = com.read()
+# print(binascii.hexlify(data_ser))
 
 
 print('disconnect', com.disconnect())

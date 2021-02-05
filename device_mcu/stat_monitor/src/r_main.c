@@ -59,11 +59,6 @@ Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
 cbuff_t * cb;
-long delay=0;
-int a;
-uint8_t temp;
-uint8_t text[6] = "11Hell";
-uint8_t result;
 
 struct cpu_elements{
 	uint8_t pkg_temp;
@@ -86,9 +81,25 @@ struct packet{
 	uint8_t checksum;
 };
 
+const uint8_t clear[5] = "    ";
+volatile uint8_t line1buf[5] = "    ";
+char line3_buffer[5] = "00.0";
+uint8_t time_delta;
+uint8_t disp_mode; // 0 - ClockMode, 1 - CPUMODE, 2 - GPUMODE
+uint8_t result;
+
+// Global packet structure
 struct packet pckt;
 
+// Code to check for valid packet
 int check_for_packet(struct packet *data);
+// Dummy delay routine
+void Delay (uint32_t cycles);
+// Difference between RTC time and data provided
+int time_difference (struct packet *data);
+// Application
+void application(void);
+
 /* End user code. Do not edit comment generated here */
 void R_MAIN_UserInit(void);
 
@@ -103,19 +114,16 @@ void main(void)
     R_MAIN_UserInit();
     /* Start user code. Do not edit comment generated here */
     R_UART0_Start();
-    for(delay=0; delay<200; delay++);
+    Delay(200);
     R_RTC_Start();
-    //R_UART0_Send(text, 6);
-    Display_Panel_String(PANEL_LCD_LINE1, text);
+
+    // Set default MODE
+    disp_mode = 1;
+
     while (1U)
     {
-
-    	for(delay=0; delay<200; delay++);
-    	result = check_for_packet(&pckt);
-    	if (result == 0){
-    		R_RTC_Set_CounterValue(pckt.date_time);
-    	}
-
+    	Delay(200);
+    	application();
     }
     /* End user code. Do not edit comment generated here */
 }
@@ -196,6 +204,93 @@ int check_for_packet(struct packet *data)
 		}
 	}
 	return 1;
+
+}
+
+void Delay (uint32_t cycles)
+{
+    /* Declare a delay count */
+    uint32_t counter = cycles;
+
+    /* Decrement the counter until it reaches 0 */
+    while (counter--)
+    {
+        /* Do nothing */
+    }
+}
+
+int time_difference (struct packet *data)
+{
+	if (abs(YEAR - data->date_time.year) > 0		||
+		abs(MONTH - data->date_time.month) > 0		||
+		abs(WEEK - data->date_time.week) > 0		||
+		abs(DAY - data->date_time.day) > 0			||
+		abs(HOUR - data->date_time.hour) > 0		||
+		abs(MIN - data->date_time.min) > 0		)
+	{
+		return 0xFF;
+	}
+
+	return abs(SEC - data->date_time.sec);
+}
+
+void application(void)
+{
+	uint8_t temp_mode;
+	temp_mode = disp_mode;
+
+
+	result = check_for_packet(&pckt);
+	if (result == 0){
+		// Get time delta value
+		time_delta = time_difference(&pckt);
+
+		// Update time if outdated
+		if (time_delta > 5){
+			 R_RTC_Set_CounterValue(pckt.date_time);
+		}
+
+		switch (temp_mode){
+			case 1:
+				// CPU Temp mode
+				if (time_delta > 5){
+					disp_mode = 0;
+					break;
+				}
+				line3_buffer[0] = (int8_t)((pckt.cpu.pkg_temp >> 4) + 0x30);
+				line3_buffer[1] = (int8_t)((pckt.cpu.pkg_temp & 0x0F) + 0x30);
+				line3_buffer[2] = '.';
+				line3_buffer[3] = (int8_t)((pckt.cpu.pkg_temp_fraction) + 0x30);
+		        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
+		        Symbol_Map(LCD_DEGREESC_ON);
+		        Display_Panel_String(PANEL_LCD_LINE1, "CPU");
+				break;
+			case 2:
+				// GPU Temp mode
+				if (time_delta > 5){
+					disp_mode = 0;
+					break;
+				}
+				line3_buffer[0] = (int8_t)((pckt.gpu.pkg_temp >> 4) + 0x30);
+				line3_buffer[1] = (int8_t)((pckt.gpu.pkg_temp & 0x0F) + 0x30);
+				line3_buffer[2] = '.';
+				line3_buffer[3] = (int8_t)((pckt.gpu.pkg_temp_fraction) + 0x30);
+		        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
+		        Symbol_Map(LCD_DEGREESC_ON);
+		        Display_Panel_String(PANEL_LCD_LINE1, "GPU");
+				break;
+		}
+
+	}
+	else{
+		// Get time delta value
+		time_delta = time_difference(&pckt);
+
+		// Update time if outdated
+		if (time_delta > 5){
+			disp_mode = 0;
+		}
+	}
 
 }
 

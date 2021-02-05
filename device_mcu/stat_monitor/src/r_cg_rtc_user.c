@@ -49,7 +49,7 @@ Pragma directive
 Global variables and functions
 ***********************************************************************************************************************/
 /* Start user code for global. Do not edit comment generated here */
-
+extern uint8_t disp_mode;
 /* Create a new instance of data structure RTCCounterValue */
 rtc_counter_value_t st_rtc_data;
 
@@ -106,7 +106,11 @@ static void r_rtc_callback_constperiod(void)
     /* Update the time on the LCD panel.
        Casting to ensure use of correct data type.*/
     Display_Panel_String(PANEL_LCD_LINE2, g_lcd_buffer);
-    Display_Panel_String(PANEL_LCD_LINE3, (g_lcd_buffer + 6u));
+    if (disp_mode == 0)
+    {
+    	Symbol_Map(LCD_DEGREESC_OFF);
+    	Display_Panel_String(PANEL_LCD_LINE3, (g_lcd_buffer + 6u));
+    }
 
     /* Display the day of the week symbol */
     SECTF_Glyph_Map(g_lcd_buffer[8]);
