@@ -1,10 +1,7 @@
 import logging
 import datetime
 import ctypes
-import pprint
-import binascii
 import time
-from timeloop import Timeloop
 from datetime import timedelta
 
 from auto_ser import SerialComms
@@ -113,8 +110,6 @@ class DataCollector():
 def convert_to_bcd(num):
     return ((int(num/10))<<4) + (num%10)
 
-# Timeloop global object
-user_timer = Timeloop()
 # Serial global object
 user_serial = SerialComms()
 # Datacollector global object
@@ -122,9 +117,9 @@ data = DataCollector()
 
 if __name__ == "__main__":
     i = 5
-    while(True):
+    while(i):
         user_serial.auto_ser_write(data.packet)
-        time.sleep(1)
+        time.sleep(2)
         i = i-1
 
 
