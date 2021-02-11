@@ -3,15 +3,12 @@ import datetime
 import ctypes
 import pprint
 import binascii
+import time
+from timeloop import Timeloop
+from datetime import timedelta
 
-from serial_comms import SerialComms
+from auto_ser import SerialComms
 from packet import PacketTX
-
-board_VID = '045B'
-board_PID = '0212'
-
-logging.basicConfig(level=logging.DEBUG, filename='data_host.log', filemode='w', format='%(asctime)s - %(message)s')
-logging.info('Logging started')
 
 class DataCollector():
     def __init__(self):
@@ -47,19 +44,26 @@ class DataCollector():
         return None
 
     def set_temps(self):
-        cpu_package = 12
+        import wmi
+        w = wmi.WMI(namespace="root\OpenHardwareMonitor")
+        temperature_infos = w.Sensor()
+        for sensor in temperature_infos:
+            if sensor.SensorType==u'Temperature':
+                if 'GPU Core' in sensor.Name :
+                    gpu_package = int(sensor.Value)
+                elif 'CPU Package' in sensor.Name:
+                    cpu_package = int(sensor.Value)
         cpu_max_core = 34
-        gpu_package = 35
         self.fill_temps(cpu_package, cpu_max_core, gpu_package)
         return None
 
     def fill_temps(self, cpu_package, cpu_max_core, gpu_package):
         self.tx_packet.cpu.pkg_temp = convert_to_bcd(cpu_package)
-        self.tx_packet.cpu.pkg_temp_fraction = 3
+        self.tx_packet.cpu.pkg_temp_fraction = 0
         self.tx_packet.cpu.max_core_temp = cpu_max_core
-        self.tx_packet.cpu.max_core_temp_fraction = 5
+        self.tx_packet.cpu.max_core_temp_fraction = 0
         self.tx_packet.gpu.pkg_temp = convert_to_bcd(gpu_package)
-        self.tx_packet.gpu.pkg_temp_fraction = 7
+        self.tx_packet.gpu.pkg_temp_fraction = 0
         return None
 
     def set_start_byte(self):
@@ -106,28 +110,21 @@ class DataCollector():
             place += 4
         return bcd
 
-
-class Application():
-    def __init__(self):
-        pass
-
 def convert_to_bcd(num):
     return ((int(num/10))<<4) + (num%10)
 
+# Timeloop global object
+user_timer = Timeloop()
+# Serial global object
+user_serial = SerialComms()
+# Datacollector global object
 data = DataCollector()
-com = SerialComms(board_VID, board_PID)
-print('connect', com.connect())
 
-packet = data.packet
-print(binascii.hexlify(packet))
+if __name__ == "__main__":
+    i = 5
+    while(True):
+        user_serial.auto_ser_write(data.packet)
+        time.sleep(1)
+        i = i-1
 
-print('Write 16 bytes data')
-com.write(packet)
-
-#print('Read 16 bytes data')
-#data_ser = com.read()
-#print(binascii.hexlify(data_ser))
-
-
-print('disconnect', com.disconnect())
 

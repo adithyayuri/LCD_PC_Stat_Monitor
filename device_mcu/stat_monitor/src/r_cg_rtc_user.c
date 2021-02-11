@@ -55,7 +55,8 @@ rtc_counter_value_t st_rtc_data;
 
 /* Declare a buffer to hold the time for displaying on the LCD panel */
 int8_t  g_lcd_buffer[10] = "00:00:00";
-
+int8_t month_day[4] = "    ";
+const uint8_t __LCD_DELAY = 1;
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
@@ -83,7 +84,7 @@ static void r_rtc_callback_constperiod(void)
 {
     /* Start user code. Do not edit comment generated here */
 
-
+	//Display_Panel_String(PANEL_LCD_LINE2, g_lcd_buffer);
 	/* Read the RTC time */
 	R_RTC_Get_CounterValue(&st_rtc_data);
 
@@ -96,7 +97,6 @@ static void r_rtc_callback_constperiod(void)
 
     /* Read the minutes value */
     g_lcd_buffer[4] = (int8_t)((st_rtc_data.min & 0x0F) + 0x30);
-
     g_lcd_buffer[3] = (int8_t)((st_rtc_data.min >> 4) + 0x30);
 
     /* Read the hours value */
@@ -105,17 +105,85 @@ static void r_rtc_callback_constperiod(void)
 
     /* Update the time on the LCD panel.
        Casting to ensure use of correct data type.*/
-    Display_Panel_String(PANEL_LCD_LINE2, g_lcd_buffer);
+
     if (disp_mode == 0)
     {
     	Symbol_Map(LCD_DEGREESC_OFF);
+    	Display_Panel_Delay(__LCD_DELAY);
     	Display_Panel_String(PANEL_LCD_LINE3, "    ");
-    	Display_Panel_String(PANEL_LCD_LINE1, "    ");
+    	Display_Panel_Delay(__LCD_DELAY);
     	Display_Panel_String(PANEL_LCD_LINE3, (g_lcd_buffer + 6u));
+    	Display_Panel_Delay(__LCD_DELAY);
+
+    	Display_Panel_String(PANEL_LCD_LINE1, "    ");
+    	Display_Panel_Delay(__LCD_DELAY);
+
+        /* Read the month value */
+    	month_day[3] = (int8_t)((st_rtc_data.day & 0x0F) + 0x30);
+    	month_day[2] = (int8_t)(((st_rtc_data.day >> 4)) + 0x30);
+
+    	Display_Panel_Delay(__LCD_DELAY);
+    	switch(st_rtc_data.month){
+			case 0x01:
+				month_day[0] = (int8_t)'J';
+				month_day[1] = (int8_t)'A';
+				break;
+			case 0x02:
+				month_day[0] = (int8_t)'F';
+				month_day[1] = (int8_t)'E';
+				break;
+			case 0x03:
+				month_day[0] = (int8_t)'M';
+				month_day[1] = (int8_t)'R';
+				break;
+			case 0x04:
+				month_day[0] = (int8_t)'A';
+				month_day[1] = (int8_t)'L';
+				break;
+			case 0x05:
+				month_day[0] = (int8_t)'M';
+				month_day[1] = (int8_t)'A';
+				break;
+			case 0x06:
+				month_day[0] = (int8_t)'J';
+				month_day[1] = (int8_t)'N';
+				break;
+			case 0x07:
+				month_day[0] = (int8_t)'J';
+				month_day[1] = (int8_t)'L';
+				break;
+			case 0x08:
+				month_day[0] = (int8_t)'A';
+				month_day[1] = (int8_t)'U';
+				break;
+			case 0x09:
+				month_day[0] = (int8_t)'S';
+				month_day[1] = (int8_t)'E';
+				break;
+			case 0x10:
+				month_day[0] = (int8_t)'O';
+				month_day[1] = (int8_t)'C';
+				break;
+			case 0x11:
+				month_day[0] = (int8_t)'N';
+				month_day[1] = (int8_t)'O';
+				break;
+			case 0x12:
+				month_day[0] = (int8_t)'D';
+				month_day[1] = (int8_t)'E';
+				break;
+    		}
+        Display_Panel_String(PANEL_LCD_LINE1, month_day);
+    	Display_Panel_Delay(__LCD_DELAY);
+
     }
+
 
     /* Display the day of the week symbol */
     SECTF_Glyph_Map(g_lcd_buffer[8]);
+
+    Display_Panel_String(PANEL_LCD_LINE2, g_lcd_buffer);
+    Display_Panel_Delay(__LCD_DELAY);
 
     if (st_rtc_data.hour & 0x20){
     	Symbol_Map(LCD_AM_OFF);

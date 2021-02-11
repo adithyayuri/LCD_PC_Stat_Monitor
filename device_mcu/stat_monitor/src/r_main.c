@@ -88,6 +88,7 @@ char line3_buffer[5] = "00.0";
 uint8_t time_delta;
 uint8_t disp_mode; // 0 - ClockMode, 1 - CPUMODE, 2 - GPUMODE
 uint8_t result;
+const uint8_t _LCD_DELAY = 1;
 
 // Global packet structure
 struct packet pckt;
@@ -135,8 +136,8 @@ void main(void)
 
     while (1U)
     {
-    	Delay(200);
     	application();
+    	STOP;
     }
     /* End user code. Do not edit comment generated here */
 }
@@ -270,6 +271,9 @@ void application(void)
 			line3_buffer[3] = (int8_t)((pckt.cpu.pkg_temp_fraction) + 0x30);
 	        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
 	        Symbol_Map(LCD_DEGREESC_ON);
+	        Display_Panel_Delay(_LCD_DELAY);
+	        Display_Panel_String(PANEL_LCD_LINE1, "    ");
+	    	Display_Panel_Delay(_LCD_DELAY);
 	        Display_Panel_String(PANEL_LCD_LINE1, "CPU");
 		}
 		if (temp_mode == 2){
@@ -280,6 +284,9 @@ void application(void)
 			line3_buffer[3] = (int8_t)((pckt.gpu.pkg_temp_fraction) + 0x30);
 	        Display_Panel_String(PANEL_LCD_LINE3, line3_buffer);
 	        Symbol_Map(LCD_DEGREESC_ON);
+	        Display_Panel_Delay(_LCD_DELAY);
+	        Display_Panel_String(PANEL_LCD_LINE1, "    ");
+	    	Display_Panel_Delay(_LCD_DELAY);
 	        Display_Panel_String(PANEL_LCD_LINE1, "GPU");
 		}
 	}
